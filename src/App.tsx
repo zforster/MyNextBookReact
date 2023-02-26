@@ -1,26 +1,15 @@
-import { MantineProvider, Loader } from "@mantine/core";
-import { Input } from "@mantine/core";
-import { IconSearch } from "@tabler/icons";
-import { Center } from "@mantine/core";
-import { getHotkeyHandler } from "@mantine/hooks";
+import { MantineProvider } from "@mantine/core";
 
 // apis
 import { useGetRecommendationsFromTextMutation } from "./apis/recommendation";
-import { useState } from "react";
-import { Grid, Container } from "@mantine/core";
+import { Grid, Container, Text, Center } from "@mantine/core";
 import Book from "./components/book";
-
+import Search from "./components/search";
+import { HeaderBanner } from "./components/header";
+import { IconBook } from "@tabler/icons";
 const App = () => {
-  const [value, setValue] = useState("");
-
-  const [
-    getRecommendations,
-    {
-      isLoading: loadingRecommendations,
-      isError: recommendationError,
-      data: recommendationData,
-    },
-  ] = useGetRecommendationsFromTextMutation();
+  const [getRecommendations, { isLoading, isError, data }] =
+    useGetRecommendationsFromTextMutation();
 
   return (
     <MantineProvider
@@ -28,29 +17,30 @@ const App = () => {
       withGlobalStyles
       withNormalizeCSS
     >
-      <Center>
-        <Input.Wrapper
-          error={recommendationError && "Something went wrong"}
-          style={{
-            maxWidth: "720px",
-            width: "720px",
-            marginTop: "350px",
-          }}
+      <HeaderBanner
+        links={[
+          { label: "Want to support the site? Buy us a coffee", link: "test" },
+        ]}
+      />
+      <Center style={{ paddingBottom: "15px" }}>
+        <Text
+          c={"white"}
+          style={{ paddingRight: "7px" }}
+          weight={"bolder"}
+          size={"xl"}
         >
-          <Input
-            onChange={(event) => setValue(event.target.value)}
-            onKeyDown={getHotkeyHandler([
-              ["Enter", () => getRecommendations(value)],
-            ])}
-            icon={<IconSearch />}
-            rightSection={loadingRecommendations ? <Loader size="xs" /> : null}
-            placeholder="Tell us about the book you're looking for. You can enter a description, keywords, or similar books!"
-          />
-        </Input.Wrapper>
+          My Next Book
+        </Text>
+        <IconBook style={{ color: "white" }} size={30} />
       </Center>
+      <Search
+        isLoading={isLoading}
+        isError={isError}
+        getRecommendations={getRecommendations}
+      />
       <Container fluid style={{ marginTop: "50px" }}>
         <Grid align="center" style={{ justifyContent: "center" }}>
-          {recommendationData?.map((recommendation) => (
+          {data?.map((recommendation) => (
             <Book recommendation={recommendation} />
           ))}
         </Grid>

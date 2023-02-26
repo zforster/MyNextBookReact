@@ -26,10 +26,14 @@ const Book = ({ recommendation }: { recommendation: Recommendation }) => {
           alignItems: "center",
           flexDirection: "column",
           padding: "15px 0 10px 0",
+          textAlign: "center",
         }}
       >
         <Text size={"xl"}>{recommendation.title}</Text>
         <Text>{formatNames(recommendation.authors)}</Text>
+        <Text lineClamp={2} size={"sm"}>
+          {recommendation.subtitle}
+        </Text>
       </div>
     );
   };
@@ -42,6 +46,8 @@ const Book = ({ recommendation }: { recommendation: Recommendation }) => {
         flexDirection: "column",
         padding: "30px",
         maxWidth: "400px",
+        height: "450px",
+        maxHeight: "450px",
         width: "400px",
       }}
     >
