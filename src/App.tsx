@@ -6,7 +6,9 @@ import { getHotkeyHandler } from "@mantine/hooks";
 
 // apis
 import { useGetRecommendationsFromTextMutation } from "./apis/recommendation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Grid, Container } from "@mantine/core";
+import Book from "./components/book";
 
 const App = () => {
   const [value, setValue] = useState("");
@@ -15,17 +17,11 @@ const App = () => {
     getRecommendations,
     {
       isLoading: loadingRecommendations,
-      isSuccess: recommendationsFetched,
+      isError: recommendationError,
       data: recommendationData,
     },
   ] = useGetRecommendationsFromTextMutation();
 
-  useEffect(() => {
-    if (recommendationsFetched) {
-      console.log(recommendationData);
-    }
-  });
-  console.log(value);
   return (
     <MantineProvider
       theme={{ colorScheme: "dark" }}
@@ -33,17 +29,32 @@ const App = () => {
       withNormalizeCSS
     >
       <Center>
-        <Input
-          onChange={(event) => setValue(event.target.value)}
-          onKeyDown={getHotkeyHandler([
-            ["Enter", () => getRecommendations(value)],
-          ])}
-          style={{ maxWidth: "720px", width: "720px", marginTop: "350px" }}
-          icon={<IconSearch />}
-          rightSection={loadingRecommendations ? <Loader size="xs" /> : null}
-          placeholder="Tell us about the book you're looking for. You can enter a description, keywords, or similar books!"
-        />
+        <Input.Wrapper
+          error={recommendationError && "Something went wrong"}
+          style={{
+            maxWidth: "720px",
+            width: "720px",
+            marginTop: "350px",
+          }}
+        >
+          <Input
+            onChange={(event) => setValue(event.target.value)}
+            onKeyDown={getHotkeyHandler([
+              ["Enter", () => getRecommendations(value)],
+            ])}
+            icon={<IconSearch />}
+            rightSection={loadingRecommendations ? <Loader size="xs" /> : null}
+            placeholder="Tell us about the book you're looking for. You can enter a description, keywords, or similar books!"
+          />
+        </Input.Wrapper>
       </Center>
+      <Container fluid style={{ marginTop: "50px" }}>
+        <Grid align="center" style={{ justifyContent: "center" }}>
+          {recommendationData?.map((recommendation) => (
+            <Book recommendation={recommendation} />
+          ))}
+        </Grid>
+      </Container>
     </MantineProvider>
   );
 };
