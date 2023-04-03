@@ -1,27 +1,22 @@
 import { Header, Container, Group, Text } from "@mantine/core";
-import { Button } from "@mantine/core";
-import { IconCoffee } from "@tabler/icons";
 import { IconBook } from "@tabler/icons";
+import Search from "./search";
+import { useGetRecommendationsFromTextMutation } from "../apis/recommendation";
 
-interface HeaderSimpleProps {
-  links: { link: string; label: string }[];
-}
-
-export const HeaderBanner = ({ links }: HeaderSimpleProps) => {
-  const items = links.map((link) => (
-    <Button variant="light" rightIcon={<IconCoffee size={14} />}>
-      {link.label}
-    </Button>
-  ));
+export const HeaderBanner = () => {
+  const [getRecommendations, { isLoading, isError }] =
+    useGetRecommendationsFromTextMutation({
+      fixedCacheKey: "recommendation-search",
+    });
 
   return (
-    <Header height={60} mb={120}>
+    <Header height={65} mb={120}>
       <Container
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
           height: "100%",
+          alignContent: "center",
+          justifyContent: "space-between",
         }}
       >
         <div
@@ -30,18 +25,22 @@ export const HeaderBanner = ({ links }: HeaderSimpleProps) => {
             alignItems: "center",
           }}
         >
+          <IconBook style={{ color: "#43fab1" }} size={30} />
           <Text
-            c={"white"}
-            style={{ paddingRight: "7px" }}
-            weight={"bolder"}
+            color={"white"}
+            style={{ paddingLeft: "7px" }}
+            weight={400}
             size={"xl"}
           >
-            My Next Book
+            MyNextBook
           </Text>
-          <IconBook style={{ color: "white" }} size={30} />
         </div>
 
-        <Group spacing={5}>{items}</Group>
+        <Search
+          isLoading={isLoading}
+          isError={isError}
+          getRecommendations={getRecommendations}
+        />
       </Container>
     </Header>
   );

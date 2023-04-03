@@ -23,8 +23,8 @@ const Search = ({
       <Input.Wrapper
         error={isError && "Something went wrong"}
         style={{
-          maxWidth: "720px",
-          width: "720px",
+          maxWidth: "500px",
+          width: "500px",
         }}
       >
         <Input
@@ -32,9 +32,9 @@ const Search = ({
           onKeyDown={getHotkeyHandler([
             ["Enter", () => getRecommendations(value)],
           ])}
-          icon={<IconSearch />}
-          rightSection={isLoading ? <Loader size="xs" /> : null}
-          placeholder="Tell us about the book you're looking for. You can enter a description, keywords, or similar books!"
+          icon={<IconSearch size={"20px"} />}
+          rightSection={isLoading ? <Loader color="#43fab1" size="sm" /> : null}
+          placeholder="Search MyNextBook..."
         />
       </Input.Wrapper>
     </Center>

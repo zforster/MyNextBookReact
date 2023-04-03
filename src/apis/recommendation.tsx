@@ -21,4 +21,5 @@ export const recommendationAPI = createApi({
   }),
 });
 
-export const { useGetRecommendationsFromTextMutation } = recommendationAPI;
+export const { useGetRecommendationsFromTextMutation, endpoints } =
+  recommendationAPI;
