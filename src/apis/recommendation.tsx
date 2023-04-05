@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Recommendation } from "../datatypes/recommendation";
+import { RecommendationResponse } from "../datatypes/recommendation";
 
 const API_BASE = "https://ffvhcdhygf.execute-api.eu-west-1.amazonaws.com/Prod/";
 
@@ -9,7 +9,7 @@ export const recommendationAPI = createApi({
     baseUrl: API_BASE,
   }),
   endpoints: (build) => ({
-    getRecommendationsFromText: build.mutation<Recommendation[], string>({
+    getRecommendationsFromText: build.mutation<RecommendationResponse, string>({
       query(body) {
         return {
           url: "recommendations_from_text",

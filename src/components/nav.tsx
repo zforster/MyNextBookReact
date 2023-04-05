@@ -17,11 +17,8 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      backgroundColor: theme.colors.dark[6],
+      color: theme.white,
 
       [`& .${getStylesRef("icon")}`]: {
         color: theme.colorScheme === "dark" ? theme.white : theme.black,
@@ -31,10 +28,7 @@ const useStyles = createStyles((theme) => ({
 
   linkIcon: {
     ref: getStylesRef("icon"),
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[2]
-        : theme.colors.gray[6],
+    color: theme.colors.dark[2],
     marginRight: theme.spacing.sm,
   },
 
@@ -79,7 +73,7 @@ const Nav = () => {
   ));
 
   return (
-    <Navbar width={{ base: 200 }} p="xs">
+    <Navbar width={{ base: 400 }} p="sm">
       {links}
     </Navbar>
   );

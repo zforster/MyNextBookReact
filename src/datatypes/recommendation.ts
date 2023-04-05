@@ -1,4 +1,4 @@
-export interface Recommendation {
+export interface Book {
   title: string;
   subtitle?: string;
   authors: string[];
@@ -11,4 +11,9 @@ export interface Recommendation {
   totalRatings?: number;
   thumbnailUrl: string;
   amazonSearchUrl: string;
+}
+
+export interface RecommendationResponse {
+  userInput: string;
+  books: Book[];
 }
