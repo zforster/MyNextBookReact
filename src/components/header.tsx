@@ -1,4 +1,4 @@
-import { Header, Container, Group, Text } from "@mantine/core";
+import { Header, Container, Text } from "@mantine/core";
 import { IconBook } from "@tabler/icons";
 import Search from "./search";
 import { useGetRecommendationsFromTextMutation } from "../apis/recommendation";
@@ -35,7 +35,6 @@ export const HeaderBanner = () => {
             MyNextBook
           </Text>
         </div>
-
         <Search
           isLoading={isLoading}
           isError={isError}

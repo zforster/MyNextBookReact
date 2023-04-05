@@ -33,7 +33,7 @@ const Search = ({
             ["Enter", () => getRecommendations(value)],
           ])}
           icon={<IconSearch size={"20px"} />}
-          rightSection={isLoading ? <Loader color="#43fab1" size="sm" /> : null}
+          rightSection={isLoading ? <Loader size="xs" /> : null}
           placeholder="Search MyNextBook..."
         />
       </Input.Wrapper>

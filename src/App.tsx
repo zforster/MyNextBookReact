@@ -1,4 +1,4 @@
-import { MantineProvider } from "@mantine/core";
+import { AppShell, MantineProvider } from "@mantine/core";
 
 // apis
 import { endpoints } from "./apis/recommendation";
@@ -6,6 +6,7 @@ import { Container } from "@mantine/core";
 import Book from "./components/book";
 import { HeaderBanner } from "./components/header";
 import { useSelector } from "react-redux";
+import Nav from "./components/nav";
 
 const App = () => {
   const { data } = useSelector(
@@ -15,17 +16,20 @@ const App = () => {
   return (
     <MantineProvider
       theme={{
+        primaryShade: 3,
         colorScheme: "dark",
+        primaryColor: "teal",
       }}
       withGlobalStyles
       withNormalizeCSS
     >
-      <HeaderBanner />
-      <Container fluid>
-        {data?.map((recommendation) => (
-          <Book recommendation={recommendation} />
-        ))}
-      </Container>
+      <AppShell header={<HeaderBanner />} navbar={<Nav />}>
+        <Container fluid>
+          {data?.map((recommendation) => (
+            <Book recommendation={recommendation} />
+          ))}
+        </Container>
+      </AppShell>
     </MantineProvider>
   );
 };
