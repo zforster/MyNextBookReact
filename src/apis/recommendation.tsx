@@ -12,7 +12,7 @@ export const recommendationAPI = createApi({
     getRecommendationsFromText: build.mutation<RecommendationResponse, string>({
       query(body) {
         return {
-          url: "recommendations_from_text",
+          url: "recommendations",
           method: "POST",
           body,
         };

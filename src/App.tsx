@@ -1,4 +1,11 @@
-import { AppShell, Card, MantineProvider, Center, Text } from "@mantine/core";
+import {
+  AppShell,
+  Card,
+  MantineProvider,
+  Center,
+  Text,
+  Divider,
+} from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 
 // apis
@@ -6,7 +13,6 @@ import { endpoints } from "./apis/recommendation";
 import Book from "./components/book";
 import { HeaderBanner } from "./components/header";
 import { useSelector } from "react-redux";
-import Nav from "./components/nav";
 
 const App = () => {
   const { data } = useSelector(
@@ -23,37 +29,37 @@ const App = () => {
       withGlobalStyles
       withNormalizeCSS
     >
-      <AppShell header={<HeaderBanner />} navbar={<Nav />}>
+      <AppShell header={<HeaderBanner />}>
         <Center>
           {data && (
-            <Card p="xl">
+            <Card p="xl" withBorder>
               <Card.Section p="xs">
-                <Text sx={{ maxWidth: "500px" }} size={"md"} lineClamp={3}>
+                <Text
+                  sx={{ maxWidth: "500px" }}
+                  size={"sm"}
+                  lineClamp={3}
+                  align="center"
+                >
                   {data.userInput}
                 </Text>
               </Card.Section>
 
+              <Divider my="xs" />
+
               <Card.Section p="xs">
-                <Carousel
-                  slideGap="xl"
-                  maw={500}
-                  mx="auto"
-                  withIndicators
-                  loop
-                  height={400}
-                >
+                <Carousel slideGap="xl" maw={500} mx="auto" withIndicators loop>
                   {data?.books?.map((book) => (
-                    <Carousel.Slide>
-                      <Center>
-                        <Book recommendation={book} />
-                      </Center>
+                    <Carousel.Slide
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Book recommendation={book} />
                     </Carousel.Slide>
                   ))}
                 </Carousel>
-              </Card.Section>
-
-              <Card.Section p="xs">
-                <Text>Regenerate Response</Text>
               </Card.Section>
             </Card>
           )}
