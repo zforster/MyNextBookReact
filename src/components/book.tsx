@@ -1,8 +1,31 @@
 import { Book as BookType } from "../datatypes/recommendation";
 import { Center, Container, Image, Space, Text } from "@mantine/core";
 import { Rating, Badge } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { ActionIcon } from "@mantine/core";
+import { IconCaretDown, IconCaretUp } from "@tabler/icons";
 
-const Book = ({ recommendation }: { recommendation: BookType }) => {
+type BookProps = {
+  recommendation: BookType;
+  resetCollapse: boolean;
+  setResetCollapse: (resetCollapse: boolean) => void;
+};
+
+const Book = ({
+  recommendation,
+  resetCollapse,
+  setResetCollapse,
+}: BookProps) => {
+  const [seeMore, setSeeMore] = useState(false);
+
+  useEffect(() => {
+    if (resetCollapse) {
+      console.log("hit");
+      setSeeMore(false);
+      setResetCollapse(false);
+    }
+  }, [resetCollapse, setSeeMore, setResetCollapse]);
+
   const formatNames = (names: string[]) => {
     switch (names.length) {
       case 1:
@@ -19,6 +42,8 @@ const Book = ({ recommendation }: { recommendation: BookType }) => {
       sx={{
         display: "flex",
         paddingBottom: "60px",
+        marginRight: "20px",
+        marginLeft: "20px",
       }}
     >
       <Center sx={{ flexDirection: "column", display: "flex" }}>
@@ -92,9 +117,18 @@ const Book = ({ recommendation }: { recommendation: BookType }) => {
 
         <Space h="md" />
 
-        <Text size={"sm"} lineClamp={3}>
-          {recommendation.description}
-        </Text>
+        {recommendation.description && (
+          <Container>
+            <Text size={"sm"} lineClamp={seeMore ? undefined : 4}>
+              {recommendation.description}
+            </Text>
+            <Center>
+              <ActionIcon onClick={() => setSeeMore(!seeMore)}>
+                {seeMore ? <IconCaretUp /> : <IconCaretDown />}
+              </ActionIcon>
+            </Center>
+          </Container>
+        )}
       </Center>
     </Container>
   );

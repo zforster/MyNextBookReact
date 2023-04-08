@@ -13,8 +13,11 @@ import { endpoints } from "./apis/recommendation";
 import Book from "./components/book";
 import { HeaderBanner } from "./components/header";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const App = () => {
+  const [resetCollapse, setResetCollapse] = useState(false);
+
   const { data } = useSelector(
     endpoints.getRecommendationsFromText.select("recommendation-search")
   );
@@ -47,7 +50,16 @@ const App = () => {
               <Divider my="xs" />
 
               <Card.Section p="xs">
-                <Carousel slideGap="xl" maw={500} mx="auto" withIndicators loop>
+                <Carousel
+                  onSlideChange={() => {
+                    setResetCollapse(true);
+                  }}
+                  slideGap="xl"
+                  maw={500}
+                  mx="auto"
+                  withIndicators
+                  loop
+                >
                   {data?.books?.map((book) => (
                     <Carousel.Slide
                       sx={{
@@ -56,7 +68,11 @@ const App = () => {
                         alignItems: "center",
                       }}
                     >
-                      <Book recommendation={book} />
+                      <Book
+                        recommendation={book}
+                        resetCollapse={resetCollapse}
+                        setResetCollapse={setResetCollapse}
+                      />
                     </Carousel.Slide>
                   ))}
                 </Carousel>
