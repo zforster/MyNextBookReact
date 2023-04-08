@@ -1,49 +1,86 @@
-import { MantineProvider, Loader } from "@mantine/core";
-import { Input } from "@mantine/core";
-import { IconSearch } from "@tabler/icons";
-import { Center } from "@mantine/core";
-import { getHotkeyHandler } from "@mantine/hooks";
+import {
+  AppShell,
+  Card,
+  MantineProvider,
+  Center,
+  Text,
+  Divider,
+} from "@mantine/core";
+import { Carousel } from "@mantine/carousel";
 
 // apis
-import { useGetRecommendationsFromTextMutation } from "./apis/recommendation";
-import { useEffect, useState } from "react";
+import { endpoints } from "./apis/recommendation";
+import Book from "./components/book";
+import { HeaderBanner } from "./components/header";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const App = () => {
-  const [value, setValue] = useState("");
+  const [resetCollapse, setResetCollapse] = useState(false);
 
-  const [
-    getRecommendations,
-    {
-      isLoading: loadingRecommendations,
-      isSuccess: recommendationsFetched,
-      data: recommendationData,
-    },
-  ] = useGetRecommendationsFromTextMutation();
+  const { data } = useSelector(
+    endpoints.getRecommendationsFromText.select("recommendation-search")
+  );
 
-  useEffect(() => {
-    if (recommendationsFetched) {
-      console.log(recommendationData);
-    }
-  });
-  console.log(value);
   return (
     <MantineProvider
-      theme={{ colorScheme: "dark" }}
+      theme={{
+        primaryShade: 3,
+        colorScheme: "dark",
+        primaryColor: "teal",
+      }}
       withGlobalStyles
       withNormalizeCSS
     >
-      <Center>
-        <Input
-          onChange={(event) => setValue(event.target.value)}
-          onKeyDown={getHotkeyHandler([
-            ["Enter", () => getRecommendations(value)],
-          ])}
-          style={{ maxWidth: "720px", width: "720px", marginTop: "350px" }}
-          icon={<IconSearch />}
-          rightSection={loadingRecommendations ? <Loader size="xs" /> : null}
-          placeholder="Tell us about the book you're looking for. You can enter a description, keywords, or similar books!"
-        />
-      </Center>
+      <AppShell header={<HeaderBanner />}>
+        <Center>
+          {data && (
+            <Card p="xl" withBorder>
+              <Card.Section p="xs">
+                <Text
+                  sx={{ maxWidth: "500px" }}
+                  size={"sm"}
+                  lineClamp={3}
+                  align="center"
+                >
+                  {data.userInput}
+                </Text>
+              </Card.Section>
+
+              <Divider my="xs" />
+
+              <Card.Section p="xs">
+                <Carousel
+                  onSlideChange={() => {
+                    setResetCollapse(true);
+                  }}
+                  slideGap="xl"
+                  maw={500}
+                  mx="auto"
+                  withIndicators
+                  loop
+                >
+                  {data?.books?.map((book) => (
+                    <Carousel.Slide
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Book
+                        recommendation={book}
+                        resetCollapse={resetCollapse}
+                        setResetCollapse={setResetCollapse}
+                      />
+                    </Carousel.Slide>
+                  ))}
+                </Carousel>
+              </Card.Section>
+            </Card>
+          )}
+        </Center>
+      </AppShell>
     </MantineProvider>
   );
 };
