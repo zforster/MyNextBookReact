@@ -1,9 +1,9 @@
 import { Book as BookType } from "../datatypes/recommendation";
-import { Center, Container, Image, Space, Text } from "@mantine/core";
+import { Center, Container, Image, Space, Text, Tooltip } from "@mantine/core";
 import { Rating, Badge } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ActionIcon } from "@mantine/core";
-import { IconCaretDown, IconCaretUp } from "@tabler/icons";
+import { IconCaretDown, IconCaretUp, IconShoppingCart } from "@tabler/icons";
 
 type BookProps = {
   recommendation: BookType;
@@ -58,18 +58,25 @@ const Book = ({
 
         <Space h="md" />
 
-        <a
-          href={recommendation.amazonSearchUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Image
-            radius={"sm"}
-            src={recommendation.thumbnailUrl}
-            width={120}
-            height={192}
-          />
-        </a>
+        <Tooltip label="Find on Amazon">
+          <a
+            href={recommendation.amazonSearchUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Image
+              sx={{
+                "&:hover": {
+                  opacity: "0.7",
+                },
+              }}
+              radius={"sm"}
+              src={recommendation.thumbnailUrl}
+              width={120}
+              height={192}
+            />
+          </a>
+        </Tooltip>
 
         <Space h="md" />
 
@@ -111,9 +118,32 @@ const Book = ({
 
         <Space h="md" />
 
-        {recommendation.categories.map((category) => (
-          <Badge>{category}</Badge>
-        ))}
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          {recommendation.categories.map((category) => (
+            <Badge>{category}</Badge>
+          ))}
+          {recommendation.categories.length > 0 && <Space w="md" />}
+          <Tooltip label="Find on Amazon">
+            <ActionIcon
+              color="primary"
+              variant="light"
+              onClick={() => {
+                const w = window.open(recommendation.amazonSearchUrl, "_blank");
+                if (w) {
+                  w.focus();
+                }
+              }}
+            >
+              <IconShoppingCart />
+            </ActionIcon>
+          </Tooltip>
+        </Container>
 
         <Space h="md" />
 
