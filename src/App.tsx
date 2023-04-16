@@ -30,7 +30,7 @@ const App = () => {
   }, [fetchRecommendations, isUninitialized]);
 
   useEffect(() => {
-    function handleScroll() {
+    const handleScroll = () => {
       if (
         window.scrollY + window.innerHeight >= document.body.scrollHeight &&
         fetchRecommendationsResponse?.exclusiveStartKey !== undefined &&
@@ -40,7 +40,7 @@ const App = () => {
           exclusiveStartKey: fetchRecommendationsResponse?.exclusiveStartKey,
         });
       }
-    }
+    };
 
     window.addEventListener("scroll", handleScroll);
 
