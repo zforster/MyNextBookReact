@@ -17,3 +17,17 @@ export interface RecommendationResponse {
   userInput: string;
   books: Book[];
 }
+
+export interface ExclusiveStartKey {
+  recommendationType: string;
+  timestamp: string;
+}
+
+export interface ExclusiveStartKeyInput {
+  exclusiveStartKey: ExclusiveStartKey | null;
+}
+
+export interface FetchBookRecommendationsResponse {
+  recommendations: RecommendationResponse[];
+  exclusiveStartKey: ExclusiveStartKey | null;
+}

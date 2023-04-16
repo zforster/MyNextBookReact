@@ -1,4 +1,4 @@
-import { Book as BookType } from "../datatypes/recommendation";
+import { Book as BookType } from "../../datatypes/recommendation";
 import { Center, Container, Image, Space, Text, Tooltip } from "@mantine/core";
 import { Rating, Badge } from "@mantine/core";
 import { useEffect, useState } from "react";
@@ -20,7 +20,6 @@ const Book = ({
 
   useEffect(() => {
     if (resetCollapse) {
-      console.log("hit");
       setSeeMore(false);
       setResetCollapse(false);
     }
@@ -28,12 +27,10 @@ const Book = ({
 
   const formatNames = (names: string[]) => {
     switch (names.length) {
-      case 1:
-        return names[0];
       case 2:
         return names.join(" & ");
       default:
-        return "";
+        return names[0];
     }
   };
 
@@ -80,7 +77,7 @@ const Book = ({
 
         <Space h="md" />
 
-        {recommendation.authors && (
+        {recommendation.authors.length > 0 && (
           <Text size="sm" align="center">
             By {formatNames(recommendation.authors)}
           </Text>
@@ -126,7 +123,7 @@ const Book = ({
           }}
         >
           {recommendation.categories.map((category) => (
-            <Badge>{category}</Badge>
+            <Badge key={category}>{category}</Badge>
           ))}
           {recommendation.categories.length > 0 && <Space w="md" />}
           <Tooltip label="Find on Amazon">
