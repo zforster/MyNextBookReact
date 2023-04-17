@@ -14,8 +14,9 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
   const [resetCollapse, setResetCollapse] = useState(false);
 
   const date = new Date(recommendationResponse?.timestamp);
-  const offset = date.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
-  const localTimestamp = new Date(date.getTime() - offset).toISOString();
+  const localTimestamp = new Date(
+    date.getTime() - date.getTimezoneOffset() * 60000
+  ).toISOString();
 
   return (
     <Center p="xl">
