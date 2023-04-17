@@ -13,17 +13,17 @@ type BookContainerProps = {
 const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
   const [resetCollapse, setResetCollapse] = useState(false);
 
+  const date = new Date(recommendationResponse?.timestamp);
+  const offset = date.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+  const localTimestamp = new Date(date.getTime() - offset).toISOString();
+
   return (
     <Center p="xl">
       <Card p="xl" withBorder>
-        <Card.Section>
-          <Text size={"xs"} align="center">
-            {`Posted ${DateTime.fromISO(
-              recommendationResponse?.timestamp
-            ).toRelative()}`}
-          </Text>
-        </Card.Section>
         <Card.Section p="xs">
+          <Text size={"xs"} align="center">
+            {`Posted ${DateTime.fromISO(localTimestamp).toRelative()}`}
+          </Text>
           <Text
             sx={{ maxWidth: "500px" }}
             size={"sm"}
