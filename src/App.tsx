@@ -1,53 +1,71 @@
 import { AppShell, Center, Loader, MantineProvider } from "@mantine/core";
-
-// apis
 import {
   endpoints,
-  useFetchRecommendationsMutation,
+  useLazyFetchRecommendationsQuery,
 } from "./apis/recommendation";
 import { HeaderBanner } from "./components/header";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { shouldRenderRecommendations } from "./utils/recommendationUtils";
 import BookContainer from "./components/recommendation/container";
 
 const App = () => {
+  const bottomRef = useRef(null);
+
   const [
-    fetchRecommendations,
-    { isUninitialized, isLoading, data: fetchRecommendationsResponse },
-  ] = useFetchRecommendationsMutation({
-    fixedCacheKey: "fetch-recommendations",
-  });
+    fetchRecommendationsQuery,
+    { data: fetchRecommendationsResponse, isFetching, isUninitialized },
+  ] = useLazyFetchRecommendationsQuery();
 
   const { data: recommendationResponse } = useSelector(
     endpoints.getRecommendationsFromText.select("recommendation-search")
   );
 
-  useEffect(() => {
-    if (isUninitialized) {
-      fetchRecommendations({ exclusiveStartKey: null });
-    }
-  }, [fetchRecommendations, isUninitialized]);
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (
+        entries[0].isIntersecting &&
+        fetchRecommendationsResponse?.exclusiveStartKey !== null &&
+        fetchRecommendationsResponse?.exclusiveStartKey !== undefined
+      ) {
+        fetchRecommendationsQuery(
+          fetchRecommendationsResponse?.exclusiveStartKey
+        );
+      }
+    },
+    [fetchRecommendationsQuery, fetchRecommendationsResponse?.exclusiveStartKey]
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.scrollY + window.innerHeight >= document.body.scrollHeight &&
-        fetchRecommendationsResponse?.exclusiveStartKey !== undefined &&
-        fetchRecommendationsResponse?.exclusiveStartKey !== null // null when reached the end of the cycle
-      ) {
-        fetchRecommendations({
-          exclusiveStartKey: fetchRecommendationsResponse?.exclusiveStartKey,
-        });
-      }
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const currentref = bottomRef.current;
+
+    const observer = new IntersectionObserver(handleIntersection, options);
+
+    if (bottomRef.current) {
+      observer.observe(bottomRef.current);
+    }
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (currentref) {
+        observer.unobserve(currentref);
+      }
     };
-  }, [fetchRecommendations, fetchRecommendationsResponse?.exclusiveStartKey]);
+  }, [handleIntersection]);
+
+  useEffect(() => {
+    if (isUninitialized) {
+      fetchRecommendationsQuery({
+        timestamp: null,
+        recommendationType: "search",
+      });
+    }
+  }, [fetchRecommendationsQuery, isUninitialized]);
 
   return (
     <MantineProvider
@@ -72,11 +90,12 @@ const App = () => {
             />
           )
         )}
-        {isLoading && (
+        {isFetching && (
           <Center p="xl">
             <Loader />
           </Center>
         )}
+        <div ref={bottomRef} />
       </AppShell>
     </MantineProvider>
   );

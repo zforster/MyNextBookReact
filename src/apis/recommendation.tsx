@@ -22,16 +22,18 @@ export const recommendationAPI = createApi({
         };
       },
     }),
-    fetchRecommendations: build.mutation<
+    fetchRecommendations: build.query<
       FetchBookRecommendationsResponse,
       ExclusiveStartKeyInput
     >({
-      query(body) {
-        return {
-          url: "recommendations",
-          method: "POST",
-          body,
-        };
+      query: (exclusiveStartKeyInput) =>
+        `recommendations/${exclusiveStartKeyInput.recommendationType}/${exclusiveStartKeyInput.timestamp}`,
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        currentCache.recommendations.push(...newItems.recommendations);
+        currentCache.exclusiveStartKey = newItems.exclusiveStartKey;
       },
     }),
   }),
@@ -39,6 +41,6 @@ export const recommendationAPI = createApi({
 
 export const {
   useGetRecommendationsFromTextMutation,
-  useFetchRecommendationsMutation,
+  useLazyFetchRecommendationsQuery,
   endpoints,
 } = recommendationAPI;

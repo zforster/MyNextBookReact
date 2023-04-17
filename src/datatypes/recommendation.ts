@@ -24,7 +24,8 @@ export interface ExclusiveStartKey {
 }
 
 export interface ExclusiveStartKeyInput {
-  exclusiveStartKey: ExclusiveStartKey | null;
+  timestamp: string | null;
+  recommendationType: string;
 }
 
 export interface FetchBookRecommendationsResponse {
