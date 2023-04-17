@@ -15,6 +15,7 @@ export interface Book {
 
 export interface RecommendationResponse {
   userInput: string;
+  timestamp: string;
   books: Book[];
 }
 

@@ -4,6 +4,7 @@ import { Carousel } from "@mantine/carousel";
 import { useState } from "react";
 import { RecommendationResponse } from "../../datatypes/recommendation";
 import Book from "./book";
+import { DateTime } from "luxon";
 
 type BookContainerProps = {
   recommendationResponse: RecommendationResponse;
@@ -15,6 +16,13 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
   return (
     <Center p="xl">
       <Card p="xl" withBorder>
+        <Card.Section>
+          <Text size={"xs"} align="center">
+            {`Posted ${DateTime.fromISO(
+              recommendationResponse?.timestamp
+            ).toRelative()}`}
+          </Text>
+        </Card.Section>
         <Card.Section p="xs">
           <Text
             sx={{ maxWidth: "500px" }}
