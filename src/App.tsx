@@ -1,12 +1,7 @@
 import { AppShell, Center, Loader, MantineProvider } from "@mantine/core";
-import {
-  endpoints,
-  useLazyFetchRecommendationsQuery,
-} from "./apis/recommendation";
+import { useLazyFetchRecommendationsQuery } from "./apis/recommendation";
 import { HeaderBanner } from "./components/header";
-import { useSelector } from "react-redux";
 import { useCallback, useEffect, useRef } from "react";
-import { shouldRenderRecommendations } from "./utils/recommendationUtils";
 import BookContainer from "./components/recommendation/container";
 
 const App = () => {
@@ -14,26 +9,25 @@ const App = () => {
 
   const [
     fetchRecommendationsQuery,
-    { data: fetchRecommendationsResponse, isFetching, isUninitialized },
+    { data: fetchExistingRecommendationsResponse, isFetching, isUninitialized },
   ] = useLazyFetchRecommendationsQuery();
-
-  const { data: recommendationResponse } = useSelector(
-    endpoints.getRecommendationsFromText.select("recommendation-search")
-  );
 
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       if (
         entries[0].isIntersecting &&
-        fetchRecommendationsResponse?.exclusiveStartKey !== null &&
-        fetchRecommendationsResponse?.exclusiveStartKey !== undefined
+        fetchExistingRecommendationsResponse?.exclusiveStartKey !== null &&
+        fetchExistingRecommendationsResponse?.exclusiveStartKey !== undefined
       ) {
         fetchRecommendationsQuery(
-          fetchRecommendationsResponse?.exclusiveStartKey
+          fetchExistingRecommendationsResponse?.exclusiveStartKey
         );
       }
     },
-    [fetchRecommendationsQuery, fetchRecommendationsResponse?.exclusiveStartKey]
+    [
+      fetchRecommendationsQuery,
+      fetchExistingRecommendationsResponse?.exclusiveStartKey,
+    ]
   );
 
   useEffect(() => {
@@ -78,11 +72,7 @@ const App = () => {
       withNormalizeCSS
     >
       <AppShell header={<HeaderBanner />}>
-        {recommendationResponse !== undefined &&
-          shouldRenderRecommendations(recommendationResponse) && (
-            <BookContainer recommendationResponse={recommendationResponse} />
-          )}
-        {fetchRecommendationsResponse?.recommendations.map(
+        {fetchExistingRecommendationsResponse?.recommendations.map(
           (recommendation, index) => (
             <BookContainer
               key={`${recommendation.userInput}${index}`}

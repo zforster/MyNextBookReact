@@ -5,9 +5,7 @@ import { useGetRecommendationsFromTextMutation } from "../apis/recommendation";
 
 export const HeaderBanner = () => {
   const [getRecommendations, { isLoading, isError }] =
-    useGetRecommendationsFromTextMutation({
-      fixedCacheKey: "recommendation-search",
-    });
+    useGetRecommendationsFromTextMutation();
 
   return (
     <Header height={65} mb={120}>

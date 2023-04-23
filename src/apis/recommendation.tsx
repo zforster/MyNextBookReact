@@ -21,6 +21,25 @@ export const recommendationAPI = createApi({
           body,
         };
       },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data: recommendation } = await queryFulfilled;
+          dispatch(
+            recommendationAPI.util.updateQueryData(
+              "fetchRecommendations",
+              // @ts-ignore
+              "fetchRecommendations",
+              (draft) => {
+                const updatedRecommendations = [
+                  recommendation,
+                  ...draft.recommendations,
+                ];
+                Object.assign(draft.recommendations, updatedRecommendations);
+              }
+            )
+          );
+        } catch {}
+      },
     }),
     fetchRecommendations: build.query<
       FetchBookRecommendationsResponse,
