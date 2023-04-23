@@ -1,9 +1,17 @@
 import { Book as BookType } from "../../datatypes/recommendation";
-import { Center, Container, Image, Space, Text, Tooltip } from "@mantine/core";
-import { Rating, Badge } from "@mantine/core";
+import {
+  Button,
+  Center,
+  Container,
+  Image,
+  Space,
+  Text,
+  Tooltip,
+} from "@mantine/core";
+import { Badge } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ActionIcon } from "@mantine/core";
-import { IconCaretDown, IconCaretUp, IconShoppingCart } from "@tabler/icons";
+import { IconCaretDown, IconCaretUp } from "@tabler/icons";
 
 type BookProps = {
   recommendation: BookType;
@@ -85,62 +93,17 @@ const Book = ({
 
         <Space h="md" />
 
-        <Container
-          sx={{
-            padding: 0,
-            margin: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Rating
-            readOnly
-            fractions={2}
-            value={
-              recommendation.averageRating ? recommendation.averageRating : 0
+        <Button
+          variant="light"
+          onClick={() => {
+            const w = window.open(recommendation.amazonSearchUrl, "_blank");
+            if (w) {
+              w.focus();
             }
-          />
-          <Space w="xs" />
-          <Text size={"xs"} style={{ paddingTop: "3px" }}>
-            {recommendation.totalRatings
-              ? `${
-                  recommendation.averageRating
-                    ? recommendation.averageRating
-                    : 0
-                } Ratings`
-              : "0 Ratings"}
-          </Text>
-        </Container>
-
-        <Space h="md" />
-
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
           }}
         >
-          {recommendation.categories.map((category) => (
-            <Badge key={category}>{category}</Badge>
-          ))}
-          {recommendation.categories.length > 0 && <Space w="md" />}
-          <Tooltip label="Find on Amazon">
-            <ActionIcon
-              color="primary"
-              variant="light"
-              onClick={() => {
-                const w = window.open(recommendation.amazonSearchUrl, "_blank");
-                if (w) {
-                  w.focus();
-                }
-              }}
-            >
-              <IconShoppingCart />
-            </ActionIcon>
-          </Tooltip>
-        </Container>
+          Find on Amazon
+        </Button>
 
         <Space h="md" />
 
