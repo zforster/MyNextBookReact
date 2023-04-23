@@ -1,6 +1,5 @@
 import { Card, Center, Text, Divider } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
-
 import { useState } from "react";
 import { RecommendationResponse } from "../../datatypes/recommendation";
 import Book from "./book";

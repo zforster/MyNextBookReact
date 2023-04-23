@@ -8,10 +8,10 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import { Badge } from "@mantine/core";
+import { Rating, Badge } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ActionIcon } from "@mantine/core";
-import { IconCaretDown, IconCaretUp } from "@tabler/icons";
+import { IconCaretDown, IconCaretUp, IconShoppingCart } from "@tabler/icons";
 
 type BookProps = {
   recommendation: BookType;
@@ -93,7 +93,44 @@ const Book = ({
 
         <Space h="md" />
 
+        <Container
+          sx={{
+            padding: 0,
+            margin: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Rating
+            readOnly
+            fractions={2}
+            value={
+              recommendation.averageRating ? recommendation.averageRating : 0
+            }
+          />
+          <Space w="xs" />
+          <Text size={"xs"} style={{ paddingTop: "3px" }}>
+            {recommendation.totalRatings
+              ? `${
+                  recommendation.averageRating
+                    ? recommendation.averageRating
+                    : 0
+                } Ratings`
+              : "0 Ratings"}
+          </Text>
+        </Container>
+
+        <Space h="md" />
+
+        {recommendation.categories.map((category) => (
+          <Badge variant="outline" key={category}>
+            {category}
+          </Badge>
+        ))}
+        {recommendation.categories.length > 0 && <Space h="md" />}
         <Button
+          leftIcon={<IconShoppingCart />}
           variant="light"
           onClick={() => {
             const w = window.open(recommendation.amazonSearchUrl, "_blank");
