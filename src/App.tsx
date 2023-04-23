@@ -1,26 +1,65 @@
-import {
-  AppShell,
-  Card,
-  MantineProvider,
-  Center,
-  Text,
-  Divider,
-} from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
-
-// apis
-import { endpoints } from "./apis/recommendation";
-import Book from "./components/book";
+import { AppShell, Center, Loader, MantineProvider } from "@mantine/core";
+import { useLazyFetchRecommendationsQuery } from "./apis/recommendation";
 import { HeaderBanner } from "./components/header";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import BookContainer from "./components/recommendation/container";
 
 const App = () => {
-  const [resetCollapse, setResetCollapse] = useState(false);
+  const bottomRef = useRef(null);
 
-  const { data } = useSelector(
-    endpoints.getRecommendationsFromText.select("recommendation-search")
+  const [
+    fetchRecommendationsQuery,
+    { data: fetchExistingRecommendationsResponse, isFetching, isUninitialized },
+  ] = useLazyFetchRecommendationsQuery();
+
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (
+        entries[0].isIntersecting &&
+        fetchExistingRecommendationsResponse?.exclusiveStartKey !== null &&
+        fetchExistingRecommendationsResponse?.exclusiveStartKey !== undefined
+      ) {
+        fetchRecommendationsQuery(
+          fetchExistingRecommendationsResponse?.exclusiveStartKey
+        );
+      }
+    },
+    [
+      fetchRecommendationsQuery,
+      fetchExistingRecommendationsResponse?.exclusiveStartKey,
+    ]
   );
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
+
+    const currentref = bottomRef.current;
+
+    const observer = new IntersectionObserver(handleIntersection, options);
+
+    if (bottomRef.current) {
+      observer.observe(bottomRef.current);
+    }
+
+    return () => {
+      if (currentref) {
+        observer.unobserve(currentref);
+      }
+    };
+  }, [handleIntersection]);
+
+  useEffect(() => {
+    if (isUninitialized) {
+      fetchRecommendationsQuery({
+        timestamp: null,
+        recommendationType: "search",
+      });
+    }
+  }, [fetchRecommendationsQuery, isUninitialized]);
 
   return (
     <MantineProvider
@@ -33,53 +72,20 @@ const App = () => {
       withNormalizeCSS
     >
       <AppShell header={<HeaderBanner />}>
-        <Center>
-          {data && (
-            <Card p="xl" withBorder>
-              <Card.Section p="xs">
-                <Text
-                  sx={{ maxWidth: "500px" }}
-                  size={"sm"}
-                  lineClamp={3}
-                  align="center"
-                >
-                  {data.userInput}
-                </Text>
-              </Card.Section>
-
-              <Divider my="xs" />
-
-              <Card.Section p="xs">
-                <Carousel
-                  onSlideChange={() => {
-                    setResetCollapse(true);
-                  }}
-                  slideGap="xl"
-                  maw={500}
-                  mx="auto"
-                  withIndicators
-                  loop
-                >
-                  {data?.books?.map((book) => (
-                    <Carousel.Slide
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Book
-                        recommendation={book}
-                        resetCollapse={resetCollapse}
-                        setResetCollapse={setResetCollapse}
-                      />
-                    </Carousel.Slide>
-                  ))}
-                </Carousel>
-              </Card.Section>
-            </Card>
-          )}
-        </Center>
+        {fetchExistingRecommendationsResponse?.recommendations.map(
+          (recommendation, index) => (
+            <BookContainer
+              key={`${recommendation.userInput}${index}`}
+              recommendationResponse={recommendation}
+            />
+          )
+        )}
+        {isFetching && (
+          <Center p="xl">
+            <Loader />
+          </Center>
+        )}
+        <div ref={bottomRef} />
       </AppShell>
     </MantineProvider>
   );

@@ -15,5 +15,21 @@ export interface Book {
 
 export interface RecommendationResponse {
   userInput: string;
+  timestamp: string;
   books: Book[];
+}
+
+export interface ExclusiveStartKey {
+  recommendationType: string;
+  timestamp: string;
+}
+
+export interface ExclusiveStartKeyInput {
+  timestamp: string | null;
+  recommendationType: string;
+}
+
+export interface FetchBookRecommendationsResponse {
+  recommendations: RecommendationResponse[];
+  exclusiveStartKey: ExclusiveStartKey | null;
 }

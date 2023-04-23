@@ -30,7 +30,7 @@ const Search = ({
         <Input
           onChange={(event) => setValue(event.target.value)}
           onKeyDown={getHotkeyHandler([
-            ["Enter", () => getRecommendations(value)],
+            ["Enter", () => !isLoading && getRecommendations(value)],
           ])}
           icon={<IconSearch size={"20px"} />}
           rightSection={isLoading ? <Loader size="xs" /> : null}
