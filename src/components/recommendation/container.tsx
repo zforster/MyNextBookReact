@@ -5,6 +5,7 @@ import { RecommendationResponse } from "../../datatypes/recommendation";
 import Book from "./book";
 import { DateTime } from "luxon";
 import { IconCopy, IconDotsVertical } from "@tabler/icons";
+import { notifications } from "@mantine/notifications";
 
 type BookContainerProps = {
   recommendationResponse: RecommendationResponse;
@@ -39,11 +40,15 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
 
               <Menu.Dropdown>
                 <Menu.Item
-                  onClick={() =>
+                  onClick={() => {
                     navigator.clipboard.writeText(
                       `http://localhost:3000/${recommendationResponse.recommendationId}`
-                    )
-                  }
+                    );
+                    notifications.show({
+                      title: "Success",
+                      message: "Link Copied!",
+                    });
+                  }}
                   icon={<IconCopy size={14} />}
                 >
                   Copy Link

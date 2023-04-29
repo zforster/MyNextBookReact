@@ -3,6 +3,7 @@ import { useLazyFetchRecommendationsQuery } from "./apis/recommendation";
 import { HeaderBanner } from "./components/header";
 import { useCallback, useEffect, useRef } from "react";
 import BookContainer from "./components/recommendation/container";
+import { Notifications } from "@mantine/notifications";
 
 const App = () => {
   const bottomRef = useRef(null);
@@ -71,6 +72,7 @@ const App = () => {
       withGlobalStyles
       withNormalizeCSS
     >
+      <Notifications position="top-right" />
       <AppShell header={<HeaderBanner />}>
         {fetchExistingRecommendationsResponse?.recommendations.map(
           (recommendation, index) => (
