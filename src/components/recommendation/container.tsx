@@ -1,19 +1,10 @@
-import {
-  Card,
-  Center,
-  Text,
-  Divider,
-  Menu,
-  Button,
-  ActionIcon,
-  Container,
-} from "@mantine/core";
+import { Card, Center, Text, Divider, Menu, ActionIcon } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useState } from "react";
 import { RecommendationResponse } from "../../datatypes/recommendation";
 import Book from "./book";
 import { DateTime } from "luxon";
-import { IconCopy, IconDotsVertical, IconMenu2 } from "@tabler/icons";
+import { IconCopy, IconDotsVertical } from "@tabler/icons";
 
 type BookContainerProps = {
   recommendationResponse: RecommendationResponse;
@@ -27,10 +18,6 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
   const localTimestamp = new Date(
     date.getTime() - date.getTimezoneOffset() * 60000
   ).toISOString();
-
-  const handleCopyId = (id: string) => {
-    navigator.clipboard.writeText(id);
-  };
 
   return (
     <Center p="xl">
@@ -51,7 +38,16 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                <Menu.Item icon={<IconCopy size={14} />}>Copy Link</Menu.Item>
+                <Menu.Item
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `http://localhost:3000/${recommendationResponse.recommendationId}`
+                    )
+                  }
+                  icon={<IconCopy size={14} />}
+                >
+                  Copy Link
+                </Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </div>
