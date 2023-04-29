@@ -42,7 +42,7 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
                 <Menu.Item
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `http://localhost:3000/${recommendationResponse.recommendationId}`
+                      `${window.location}${recommendationResponse.recommendationId}`
                     );
                     notifications.show({
                       title: "Success",
