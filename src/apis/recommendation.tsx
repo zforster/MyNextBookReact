@@ -5,7 +5,7 @@ import {
   ExclusiveStartKeyInput,
 } from "../datatypes/recommendation";
 
-const API_BASE = "https://ffvhcdhygf.execute-api.eu-west-1.amazonaws.com/Prod/";
+const API_BASE = process.env.REACT_APP_API_URL;
 
 export const recommendationAPI = createApi({
   reducerPath: "recommendation",
