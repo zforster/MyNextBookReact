@@ -1,4 +1,5 @@
 {
+  "homepage": "http://zforster.github.io/MyNextBookReact",
   "name": "my-next-book",
   "version": "0.1.0",
   "private": true,
@@ -29,6 +30,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -53,6 +56,7 @@
   },
   "devDependencies": {
     "@types/luxon": "^3.3.0",
-    "@types/react": "^18.0.28"
+    "@types/react": "^18.0.28",
+    "gh-pages": "^5.0.0"
   }
 }
