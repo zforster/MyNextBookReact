@@ -38,6 +38,17 @@ export const recommendationAPI = createApi({
               }
             )
           );
+          dispatch(
+            recommendationAPI.util.updateQueryData(
+              "fetchRecommendationById",
+              // @ts-ignore
+              "fetchRecommendationById",
+              (draft) => {
+                const updatedRecommendations = [recommendation, ...draft];
+                Object.assign(draft, updatedRecommendations);
+              }
+            )
+          );
         } catch {}
       },
     }),
@@ -55,11 +66,21 @@ export const recommendationAPI = createApi({
         currentCache.exclusiveStartKey = newItems.exclusiveStartKey;
       },
     }),
+    fetchRecommendationById: build.query<RecommendationResponse[], string>({
+      query: (recommendationId) => recommendationId,
+      serializeQueryArgs: () => {
+        return "fetchRecommendationById";
+      },
+      transformResponse: (response: RecommendationResponse) => {
+        return [response];
+      },
+    }),
   }),
 });
 
 export const {
   useGetRecommendationsFromTextMutation,
   useLazyFetchRecommendationsQuery,
+  useLazyFetchRecommendationByIdQuery,
   endpoints,
 } = recommendationAPI;
