@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/MyNextBookReact/static/css/main.e6c13ad2.css",
+    "main.js": "/MyNextBookReact/static/js/main.c154a717.js",
+    "static/js/787.8482b3c4.chunk.js": "/MyNextBookReact/static/js/787.8482b3c4.chunk.js",
+    "index.html": "/MyNextBookReact/index.html",
+    "main.e6c13ad2.css.map": "/MyNextBookReact/static/css/main.e6c13ad2.css.map",
+    "main.c154a717.js.map": "/MyNextBookReact/static/js/main.c154a717.js.map",
+    "787.8482b3c4.chunk.js.map": "/MyNextBookReact/static/js/787.8482b3c4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.c154a717.js"
+  ]
+}
