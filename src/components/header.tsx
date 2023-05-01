@@ -17,8 +17,10 @@ export const HeaderBanner = () => {
           justifyContent: "space-between",
         }}
       >
-        <div
+        <a
+          href={"/"}
           style={{
+            textDecoration: "none",
             display: "flex",
             alignItems: "center",
           }}
@@ -32,7 +34,8 @@ export const HeaderBanner = () => {
           >
             MyNextBook
           </Text>
-        </div>
+        </a>
+
         <Search
           isLoading={isLoading}
           isError={isError}
