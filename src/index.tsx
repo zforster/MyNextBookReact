@@ -4,7 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { store } from "./store";
+import RecommendationById from "./containers/recommendationById";
+import Home from "./containers/home";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -12,7 +15,27 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <App>
+                <Home />
+              </App>
+            }
+          />
+          <Route
+            path="/:id"
+            element={
+              <App>
+                <RecommendationById />
+              </App>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
