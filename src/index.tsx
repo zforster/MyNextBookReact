@@ -26,7 +26,7 @@ root.render(
             }
           />
           <Route
-            path="/recommendation/:id"
+            path="recommendation/:id"
             element={
               <App>
                 <RecommendationById />
