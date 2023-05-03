@@ -18,18 +18,18 @@ root.render(
       <HashRouter>
         <Routes>
           <Route
-            path="/"
-            element={
-              <App>
-                <Home />
-              </App>
-            }
-          />
-          <Route
             path="/recommendation/:id"
             element={
               <App>
                 <RecommendationById />
+              </App>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <App>
+                <Home />
               </App>
             }
           />
