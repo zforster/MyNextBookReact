@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { store } from "./store";
 import RecommendationById from "./containers/recommendationById";
 import Home from "./containers/home";
@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route
             path="/"
@@ -26,7 +26,7 @@ root.render(
             }
           />
           <Route
-            path="recommendation/:id"
+            path="/recommendation/:id"
             element={
               <App>
                 <RecommendationById />
@@ -35,7 +35,7 @@ root.render(
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   </React.StrictMode>
 );
