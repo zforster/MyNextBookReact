@@ -34,7 +34,7 @@ const Search = ({
           ])}
           icon={<IconSearch size={"20px"} />}
           rightSection={isLoading ? <Loader size="xs" /> : null}
-          placeholder="Search MyNextBook..."
+          placeholder="Search PagePundit..."
         />
       </Input.Wrapper>
     </Center>

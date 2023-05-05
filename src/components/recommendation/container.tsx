@@ -42,7 +42,7 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
                 <Menu.Item
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${window.location}recommendation/${recommendationResponse.recommendationId}`
+                      `${window.location}/#/recommendation/${recommendationResponse.recommendationId}`
                     );
                     notifications.show({
                       title: "Success",
