@@ -1,8 +1,7 @@
-import { Loader } from "@mantine/core";
-import { Input } from "@mantine/core";
+import { Loader, Input } from "@mantine/core";
 import { IconSearch } from "@tabler/icons";
 import { Center } from "@mantine/core";
-import { getHotkeyHandler } from "@mantine/hooks";
+import { getHotkeyHandler, useMediaQuery } from "@mantine/hooks";
 
 // apis
 import { useState } from "react";
@@ -18,13 +17,14 @@ const Search = ({
 }) => {
   const [value, setValue] = useState("");
 
+  const s = useMediaQuery("(max-width: 26em)");
+
   return (
     <Center>
       <Input.Wrapper
         error={isError && "Something went wrong"}
         style={{
-          maxWidth: "500px",
-          width: "500px",
+          width: s ? "200px" : "320px",
         }}
       >
         <Input
