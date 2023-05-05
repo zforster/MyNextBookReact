@@ -1,4 +1,5 @@
 import { Card, Center, Text, Divider, Menu, ActionIcon } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@mantine/carousel";
 import { useState } from "react";
 import { RecommendationResponse } from "../../datatypes/recommendation";
@@ -20,8 +21,10 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
     date.getTime() - date.getTimezoneOffset() * 60000
   ).toISOString();
 
+  const isMobile = useMediaQuery("(max-width: 41em)");
+
   return (
-    <Center p="xl">
+    <Center p={isMobile ? "sm" : "xl"}>
       <Card p="xl" withBorder>
         <Card.Section p="xs">
           <div
