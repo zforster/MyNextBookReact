@@ -1,5 +1,4 @@
 import { Card, Center, Text, Divider, Menu, ActionIcon } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { Carousel } from "@mantine/carousel";
 import { useState } from "react";
 import { RecommendationResponse } from "../../datatypes/recommendation";
@@ -21,92 +20,88 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
     date.getTime() - date.getTimezoneOffset() * 60000
   ).toISOString();
 
-  const isMobile = useMediaQuery("(max-width: 41em)");
-
   return (
-    <Center p={isMobile ? "sm" : "xl"}>
-      <Card p="xl" withBorder>
-        <Card.Section p="xs">
-          <div
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
+    <Card withBorder maw={"500px"}>
+      <div
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+        }}
+      >
+        <Menu opened={openMenu} onChange={setOpenMenu}>
+          <Menu.Target>
+            <ActionIcon size="sm">
+              <IconDotsVertical />
+            </ActionIcon>
+          </Menu.Target>
+
+          <Menu.Dropdown>
+            <Menu.Item
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `${window.location}#/recommendation/${recommendationResponse.recommendationId}`
+                );
+                notifications.show({
+                  title: "Success",
+                  message: "Link Copied!",
+                });
+              }}
+              icon={<IconCopy size={14} />}
+            >
+              Copy Link
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </div>
+
+      <Center>
+        <Text size={"xs"} align="center">
+          {`Posted ${DateTime.fromISO(localTimestamp).toRelative()}`}
+        </Text>
+      </Center>
+      <Center>
+        <Text
+          sx={{ maxWidth: "500px" }}
+          size={"sm"}
+          lineClamp={3}
+          align="center"
+        >
+          {recommendationResponse?.userInput}
+        </Text>
+      </Center>
+
+      <Divider my="xs" />
+
+      <Carousel
+        onSlideChange={() => {
+          setResetCollapse(true);
+        }}
+        slideGap="xl"
+        maw={500}
+        mx="auto"
+        withIndicators
+        loop
+      >
+        {recommendationResponse?.books?.map((book) => (
+          <Carousel.Slide
+            key={`${book.title} ${book.subtitle}`}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Menu opened={openMenu} onChange={setOpenMenu}>
-              <Menu.Target>
-                <ActionIcon size="sm">
-                  <IconDotsVertical />
-                </ActionIcon>
-              </Menu.Target>
-
-              <Menu.Dropdown>
-                <Menu.Item
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      `${window.location}#/recommendation/${recommendationResponse.recommendationId}`
-                    );
-                    notifications.show({
-                      title: "Success",
-                      message: "Link Copied!",
-                    });
-                  }}
-                  icon={<IconCopy size={14} />}
-                >
-                  Copy Link
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          </div>
-
-          <Text size={"xs"} align="center">
-            {`Posted ${DateTime.fromISO(localTimestamp).toRelative()}`}
-          </Text>
-          <Text
-            sx={{ maxWidth: "500px" }}
-            size={"sm"}
-            lineClamp={3}
-            align="center"
-          >
-            {recommendationResponse?.userInput}
-          </Text>
-        </Card.Section>
-
-        <Divider my="xs" />
-
-        <Card.Section p="xs">
-          <Carousel
-            onSlideChange={() => {
-              setResetCollapse(true);
-            }}
-            slideGap="xl"
-            maw={500}
-            mx="auto"
-            withIndicators
-            loop
-          >
-            {recommendationResponse?.books?.map((book) => (
-              <Carousel.Slide
-                key={`${book.title} ${book.subtitle}`}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Book
-                  key={book.subtitle}
-                  recommendation={book}
-                  resetCollapse={resetCollapse}
-                  setResetCollapse={setResetCollapse}
-                />
-              </Carousel.Slide>
-            ))}
-          </Carousel>
-        </Card.Section>
-      </Card>
-    </Center>
+            <Book
+              key={book.subtitle}
+              recommendation={book}
+              resetCollapse={resetCollapse}
+              setResetCollapse={setResetCollapse}
+            />
+          </Carousel.Slide>
+        ))}
+      </Carousel>
+    </Card>
   );
 };
 

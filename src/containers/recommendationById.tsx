@@ -21,15 +21,14 @@ const RecommendationById = () => {
   return (
     <div>
       {isFetching && (
-        <Center p="xl">
+        <Center>
           <Loader />
         </Center>
       )}
       {recommendations?.map((recommendation, index) => (
-        <BookContainer
-          key={`${recommendation.userInput}${index}`}
-          recommendationResponse={recommendation}
-        />
+        <Center key={`${recommendation.userInput}${index}`} pb="md">
+          <BookContainer recommendationResponse={recommendation} />
+        </Center>
       ))}
     </div>
   );

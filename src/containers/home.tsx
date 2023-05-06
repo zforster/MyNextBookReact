@@ -64,14 +64,13 @@ const Home = () => {
     <div>
       {fetchExistingRecommendationsResponse?.recommendations.map(
         (recommendation, index) => (
-          <BookContainer
-            key={`${recommendation.userInput}${index}`}
-            recommendationResponse={recommendation}
-          />
+          <Center key={`${recommendation.userInput}${index}`} pb="md">
+            <BookContainer recommendationResponse={recommendation} />
+          </Center>
         )
       )}
       {isFetching && (
-        <Center p="xl">
+        <Center>
           <Loader />
         </Center>
       )}
