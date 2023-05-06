@@ -8,8 +8,9 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { Rating, Badge } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ActionIcon } from "@mantine/core";
 import { IconCaretDown, IconCaretUp, IconShoppingCart } from "@tabler/icons";
 
@@ -25,6 +26,10 @@ const Book = ({
   setResetCollapse,
 }: BookProps) => {
   const [seeMore, setSeeMore] = useState(false);
+  const [isOverflowDesc, setIsOverflowDesc] = useState(false);
+  const textRef = useRef(null);
+
+  const isMobile = useMediaQuery("(max-width: 41em)");
 
   useEffect(() => {
     if (resetCollapse) {
@@ -32,6 +37,16 @@ const Book = ({
       setResetCollapse(false);
     }
   }, [resetCollapse, setSeeMore, setResetCollapse]);
+
+  useEffect(() => {
+    if (textRef.current !== null && textRef.current !== undefined) {
+      const textElement = textRef.current as HTMLDivElement;
+      const lineHeight = parseInt(getComputedStyle(textElement).lineHeight, 10);
+      const maxHeight = lineHeight * 3;
+      const isOverflowing = textElement.clientHeight > maxHeight;
+      setIsOverflowDesc(isOverflowing);
+    }
+  }, [recommendation.description]);
 
   const formatNames = (names: string[]) => {
     switch (names.length) {
@@ -46,22 +61,21 @@ const Book = ({
     <Container
       sx={{
         display: "flex",
-        paddingBottom: "60px",
-        marginRight: "20px",
-        marginLeft: "20px",
+        paddingBottom: "40px",
       }}
     >
       <Center sx={{ flexDirection: "column", display: "flex" }}>
         <Text
-          size={"md"}
+          lineClamp={3}
+          size={isMobile ? "sm" : "md"}
           align="center"
-          sx={{ maxWidth: "500px", color: "white" }}
+          sx={{ color: "white" }}
         >
           {recommendation.title}
           {recommendation.subtitle && `: ${recommendation.subtitle}`}
         </Text>
 
-        <Space h="md" />
+        <Space h="sm" />
 
         <Tooltip label="Find on Amazon">
           <a
@@ -77,8 +91,8 @@ const Book = ({
               }}
               radius={"sm"}
               src={recommendation.thumbnailUrl}
-              width={120}
-              height={192}
+              width={isMobile ? 100 : 120}
+              height={isMobile ? 172 : 192}
             />
           </a>
         </Tooltip>
@@ -86,7 +100,7 @@ const Book = ({
         <Space h="md" />
 
         {recommendation.authors.length > 0 && (
-          <Text size="sm" align="center">
+          <Text size="sm" align="center" maw="400px">
             By {formatNames(recommendation.authors)}
           </Text>
         )}
@@ -146,14 +160,21 @@ const Book = ({
 
         {recommendation.description && (
           <Container>
-            <Text size={"sm"} lineClamp={seeMore ? undefined : 4}>
-              {recommendation.description}
-            </Text>
-            <Center>
-              <ActionIcon onClick={() => setSeeMore(!seeMore)}>
-                {seeMore ? <IconCaretUp /> : <IconCaretDown />}
-              </ActionIcon>
-            </Center>
+            <div ref={textRef}>
+              <Text
+                size={isMobile ? "xs" : "sm"}
+                lineClamp={seeMore ? undefined : 4}
+              >
+                {recommendation.description}
+              </Text>
+            </div>
+            {isOverflowDesc && (
+              <Center>
+                <ActionIcon onClick={() => setSeeMore(!seeMore)}>
+                  {seeMore ? <IconCaretUp /> : <IconCaretDown />}
+                </ActionIcon>
+              </Center>
+            )}
           </Container>
         )}
       </Center>
