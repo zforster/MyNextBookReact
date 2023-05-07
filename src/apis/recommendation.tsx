@@ -5,7 +5,10 @@ import {
   ExclusiveStartKeyInput,
 } from "../datatypes/recommendation";
 
-const API_BASE = process.env.REACT_APP_API_URL;
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? process.env.REACT_APP_API_URL_DEV
+    : process.env.REACT_APP_API_URL_PRD;
 
 export const recommendationAPI = createApi({
   reducerPath: "recommendation",
