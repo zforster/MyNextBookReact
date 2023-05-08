@@ -6,6 +6,7 @@ import Book from "./book";
 import { DateTime } from "luxon";
 import { IconCopy, IconDotsVertical } from "@tabler/icons";
 import { notifications } from "@mantine/notifications";
+import { useMediaQuery } from "@mantine/hooks";
 
 type BookContainerProps = {
   recommendationResponse: RecommendationResponse;
@@ -20,6 +21,11 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
     date.getTime() - date.getTimezoneOffset() * 60000
   ).toISOString();
 
+  const isMobile = useMediaQuery("(max-width: 41em)");
+
+  if (isMobile === undefined) {
+    return null;
+  }
   return (
     <Card withBorder maw={"500px"}>
       <div
@@ -93,6 +99,7 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
             }}
           >
             <Book
+              isMobile={isMobile}
               key={book.subtitle}
               recommendation={book}
               resetCollapse={resetCollapse}

@@ -8,7 +8,6 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { Rating, Badge } from "@mantine/core";
 import { useEffect, useState, useRef } from "react";
 import { ActionIcon } from "@mantine/core";
@@ -17,19 +16,19 @@ import { IconCaretDown, IconCaretUp, IconShoppingCart } from "@tabler/icons";
 type BookProps = {
   recommendation: BookType;
   resetCollapse: boolean;
+  isMobile: boolean;
   setResetCollapse: (resetCollapse: boolean) => void;
 };
 
 const Book = ({
   recommendation,
   resetCollapse,
+  isMobile,
   setResetCollapse,
 }: BookProps) => {
   const [seeMore, setSeeMore] = useState(false);
   const [isOverflowDesc, setIsOverflowDesc] = useState(false);
   const textRef = useRef(null);
-
-  const isMobile = useMediaQuery("(max-width: 41em)");
 
   useEffect(() => {
     if (resetCollapse) {
