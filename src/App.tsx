@@ -2,7 +2,7 @@ import { AppShell, MantineProvider } from "@mantine/core";
 import { HeaderBanner } from "./components/header";
 import { Notifications } from "@mantine/notifications";
 import { ReactNode, useEffect } from "react";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 interface AppProps {
   children: ReactNode;
@@ -11,7 +11,6 @@ interface AppProps {
 const App = ({ children }: AppProps) => {
   useEffect(() => {
     ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS as string);
-    ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
   return (

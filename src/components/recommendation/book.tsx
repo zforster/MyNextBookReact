@@ -11,7 +11,7 @@ import {
 import { Rating, Badge } from "@mantine/core";
 import { useState } from "react";
 import { IconShoppingCart } from "@tabler/icons";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 type BookProps = {
   recommendation: BookType;
