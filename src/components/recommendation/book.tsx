@@ -4,11 +4,10 @@ import {
   Center,
   Container,
   Image,
+  Menu,
   Space,
   Text,
-  Tooltip,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { Rating, Badge } from "@mantine/core";
 import { useEffect, useState, useRef } from "react";
 import { ActionIcon } from "@mantine/core";
@@ -17,19 +16,20 @@ import { IconCaretDown, IconCaretUp, IconShoppingCart } from "@tabler/icons";
 type BookProps = {
   recommendation: BookType;
   resetCollapse: boolean;
+  isMobile: boolean;
   setResetCollapse: (resetCollapse: boolean) => void;
 };
 
 const Book = ({
   recommendation,
   resetCollapse,
+  isMobile,
   setResetCollapse,
 }: BookProps) => {
   const [seeMore, setSeeMore] = useState(false);
   const [isOverflowDesc, setIsOverflowDesc] = useState(false);
+  const [openAmazonMenu, setOpenAmazonMenu] = useState(false);
   const textRef = useRef(null);
-
-  const isMobile = useMediaQuery("(max-width: 41em)");
 
   useEffect(() => {
     if (resetCollapse) {
@@ -77,25 +77,12 @@ const Book = ({
 
         <Space h="sm" />
 
-        <Tooltip label="Find on Amazon">
-          <a
-            href={recommendation.amazonSearchUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Image
-              sx={{
-                "&:hover": {
-                  opacity: "0.7",
-                },
-              }}
-              radius={"sm"}
-              src={recommendation.thumbnailUrl}
-              width={isMobile ? 100 : 120}
-              height={isMobile ? 172 : 192}
-            />
-          </a>
-        </Tooltip>
+        <Image
+          radius={"sm"}
+          src={recommendation.thumbnailUrl}
+          width={isMobile ? 100 : 120}
+          height={isMobile ? 172 : 192}
+        />
 
         <Space h="md" />
 
@@ -143,18 +130,35 @@ const Book = ({
           </Badge>
         ))}
         {recommendation.categories.length > 0 && <Space h="md" />}
-        <Button
-          leftIcon={<IconShoppingCart />}
-          variant="light"
-          onClick={() => {
-            const w = window.open(recommendation.amazonSearchUrl, "_blank");
-            if (w) {
-              w.focus();
-            }
-          }}
-        >
-          Find on Amazon
-        </Button>
+
+        <Menu opened={openAmazonMenu} onChange={setOpenAmazonMenu}>
+          <Menu.Target>
+            <Button leftIcon={<IconShoppingCart />} variant="light">
+              Find on Amazon
+            </Button>
+          </Menu.Target>
+
+          <Menu.Dropdown>
+            {[
+              { region: "Amazon UK", baseUrl: "https://amazon.co.uk" },
+              { region: "Amazon US", baseUrl: "https://amazon.com" },
+            ].map((item) => (
+              <Menu.Item
+                onClick={() => {
+                  const w = window.open(
+                    `${item.baseUrl}/${recommendation.amazonSearchUrl}`,
+                    "_blank"
+                  );
+                  if (w) {
+                    w.focus();
+                  }
+                }}
+              >
+                {item.region}
+              </Menu.Item>
+            ))}
+          </Menu.Dropdown>
+        </Menu>
 
         <Space h="md" />
 
