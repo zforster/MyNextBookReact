@@ -127,7 +127,7 @@ const Book = ({
               {
                 region: "Amazon US",
                 baseUrl: "https://amazon.com",
-                affiliateTag: "&tag=pagepundit-21",
+                affiliateTag: "&tag=pagepundit-20",
               },
             ].map((item) => (
               <Menu.Item
