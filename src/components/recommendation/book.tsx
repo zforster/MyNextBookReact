@@ -140,13 +140,21 @@ const Book = ({
 
           <Menu.Dropdown>
             {[
-              { region: "Amazon UK", baseUrl: "https://amazon.co.uk" },
-              { region: "Amazon US", baseUrl: "https://amazon.com" },
+              {
+                region: "Amazon UK",
+                baseUrl: "https://amazon.co.uk",
+                affiliateTag: "&tag=pagepundit-21",
+              },
+              {
+                region: "Amazon US",
+                baseUrl: "https://amazon.com",
+                affiliateTag: "&tag=pagepundit-21",
+              },
             ].map((item) => (
               <Menu.Item
                 onClick={() => {
                   const w = window.open(
-                    `${item.baseUrl}/${recommendation.amazonSearchUrl}`,
+                    `${item.baseUrl}/${recommendation.amazonSearchUrl}${item.affiliateTag}`,
                     "_blank"
                   );
                   if (w) {
