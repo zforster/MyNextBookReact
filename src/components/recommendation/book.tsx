@@ -9,9 +9,8 @@ import {
   Text,
 } from "@mantine/core";
 import { Rating, Badge } from "@mantine/core";
-import { useEffect, useState, useRef } from "react";
-import { ActionIcon } from "@mantine/core";
-import { IconCaretDown, IconCaretUp, IconShoppingCart } from "@tabler/icons";
+import { useState } from "react";
+import { IconShoppingCart } from "@tabler/icons";
 
 type BookProps = {
   recommendation: BookType;
@@ -26,27 +25,7 @@ const Book = ({
   isMobile,
   setResetCollapse,
 }: BookProps) => {
-  const [seeMore, setSeeMore] = useState(false);
-  const [isOverflowDesc, setIsOverflowDesc] = useState(false);
   const [openAmazonMenu, setOpenAmazonMenu] = useState(false);
-  const textRef = useRef(null);
-
-  useEffect(() => {
-    if (resetCollapse) {
-      setSeeMore(false);
-      setResetCollapse(false);
-    }
-  }, [resetCollapse, setSeeMore, setResetCollapse]);
-
-  useEffect(() => {
-    if (textRef.current !== null && textRef.current !== undefined) {
-      const textElement = textRef.current as HTMLDivElement;
-      const lineHeight = parseInt(getComputedStyle(textElement).lineHeight, 10);
-      const maxHeight = lineHeight * 3;
-      const isOverflowing = textElement.clientHeight > maxHeight;
-      setIsOverflowDesc(isOverflowing);
-    }
-  }, [recommendation.description]);
 
   const formatNames = (names: string[]) => {
     switch (names.length) {
@@ -172,21 +151,9 @@ const Book = ({
 
         {recommendation.description && (
           <Container>
-            <div ref={textRef}>
-              <Text
-                size={isMobile ? "xs" : "sm"}
-                lineClamp={seeMore ? undefined : 4}
-              >
-                {recommendation.description}
-              </Text>
-            </div>
-            {isOverflowDesc && (
-              <Center>
-                <ActionIcon onClick={() => setSeeMore(!seeMore)}>
-                  {seeMore ? <IconCaretUp /> : <IconCaretDown />}
-                </ActionIcon>
-              </Center>
-            )}
+            <Text size={isMobile ? "xs" : "sm"} lineClamp={4}>
+              {recommendation.description}
+            </Text>
           </Container>
         )}
       </Center>
