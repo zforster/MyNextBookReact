@@ -10,7 +10,7 @@ interface AppProps {
 
 const App = ({ children }: AppProps) => {
   useEffect(() => {
-    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || "");
+    ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS as string);
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 

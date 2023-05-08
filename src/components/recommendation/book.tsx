@@ -11,6 +11,7 @@ import {
 import { Rating, Badge } from "@mantine/core";
 import { useState } from "react";
 import { IconShoppingCart } from "@tabler/icons";
+import ReactGA from "react-ga";
 
 type BookProps = {
   recommendation: BookType;
@@ -132,6 +133,7 @@ const Book = ({
             ].map((item) => (
               <Menu.Item
                 onClick={() => {
+                  const url = `${item.baseUrl}/${recommendation.amazonSearchUrl}${item.affiliateTag}`;
                   const w = window.open(
                     `${item.baseUrl}/${recommendation.amazonSearchUrl}${item.affiliateTag}`,
                     "_blank"
@@ -139,6 +141,11 @@ const Book = ({
                   if (w) {
                     w.focus();
                   }
+                  ReactGA.event({
+                    category: "Book Reccomendation",
+                    action: "Amazon Link Click",
+                    label: url,
+                  });
                 }}
               >
                 {item.region}
