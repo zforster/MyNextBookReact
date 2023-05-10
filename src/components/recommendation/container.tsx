@@ -7,6 +7,7 @@ import { DateTime } from "luxon";
 import { IconCopy, IconDotsVertical } from "@tabler/icons";
 import { notifications } from "@mantine/notifications";
 import { useMediaQuery } from "@mantine/hooks";
+import ReactGA from "react-ga4";
 
 type BookContainerProps = {
   recommendationResponse: RecommendationResponse;
@@ -51,6 +52,11 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
                 notifications.show({
                   title: "Success",
                   message: "Link Copied!",
+                });
+                ReactGA.event({
+                  category: "Book Reccomendation",
+                  action: "Copy URL",
+                  label: recommendationResponse.recommendationId,
                 });
               }}
               icon={<IconCopy size={14} />}
