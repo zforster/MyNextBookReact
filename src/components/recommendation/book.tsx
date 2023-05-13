@@ -158,7 +158,7 @@ const Book = ({
 
         {recommendation.description && (
           <Container>
-            <Text size={isMobile ? "xs" : "sm"} lineClamp={4}>
+            <Text size={isMobile ? "xs" : "sm"} lineClamp={4} align="center">
               {recommendation.description}
             </Text>
           </Container>
