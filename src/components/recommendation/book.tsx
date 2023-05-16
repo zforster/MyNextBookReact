@@ -41,7 +41,7 @@ const Book = ({
     <Container
       sx={{
         display: "flex",
-        paddingBottom: "40px",
+        paddingBottom: "45px",
       }}
     >
       <Center sx={{ flexDirection: "column", display: "flex" }}>
@@ -111,6 +111,16 @@ const Book = ({
         ))}
         {recommendation.categories.length > 0 && <Space h="md" />}
 
+        {recommendation.description && (
+          <Container>
+            <Text size={isMobile ? "xs" : "sm"} lineClamp={4} align="center">
+              {recommendation.description}
+            </Text>
+          </Container>
+        )}
+
+        <Space h="md" />
+
         <Menu opened={openAmazonMenu} onChange={setOpenAmazonMenu}>
           <Menu.Target>
             <Button leftIcon={<IconShoppingCart />} variant="light">
@@ -153,16 +163,6 @@ const Book = ({
             ))}
           </Menu.Dropdown>
         </Menu>
-
-        <Space h="md" />
-
-        {recommendation.description && (
-          <Container>
-            <Text size={isMobile ? "xs" : "sm"} lineClamp={4} align="center">
-              {recommendation.description}
-            </Text>
-          </Container>
-        )}
       </Center>
     </Container>
   );
