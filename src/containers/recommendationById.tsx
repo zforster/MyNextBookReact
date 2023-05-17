@@ -4,6 +4,7 @@ import BookContainer from "../components/recommendation/container";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import ReactGA from "react-ga4";
+import Welcome from "../components/welcome";
 
 const RecommendationById = () => {
   const { id } = useParams();
@@ -26,9 +27,9 @@ const RecommendationById = () => {
 
   return (
     <div>
-      {isFetching && (
-        <Center>
-          <Loader />
+      {!isFetching && (
+        <Center pb="md">
+          <Welcome />
         </Center>
       )}
       {recommendations?.map((recommendation, index) => (
@@ -36,6 +37,11 @@ const RecommendationById = () => {
           <BookContainer recommendationResponse={recommendation} />
         </Center>
       ))}
+      {isFetching && (
+        <Center>
+          <Loader />
+        </Center>
+      )}
     </div>
   );
 };

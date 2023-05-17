@@ -2,6 +2,7 @@ import { Center, Loader } from "@mantine/core";
 import { useLazyFetchRecommendationsQuery } from "../apis/recommendation";
 import { useCallback, useEffect, useRef } from "react";
 import BookContainer from "../components/recommendation/container";
+import Welcome from "../components/welcome";
 
 const Home = () => {
   const bottomRef = useRef(null);
@@ -62,6 +63,11 @@ const Home = () => {
 
   return (
     <div>
+      {!isFetching && (
+        <Center pb="md">
+          <Welcome />
+        </Center>
+      )}
       {fetchExistingRecommendationsResponse?.recommendations.map(
         (recommendation, index) => (
           <Center key={`${recommendation.userInput}${index}`} pb="md">
