@@ -8,7 +8,7 @@ import Welcome from "../components/welcome";
 import { Helmet } from "react-helmet-async";
 
 const RecommendationById = () => {
-  const { id } = useParams();
+  const { id, defaultSlide } = useParams();
 
   const [
     fetchRecommendationByIdQuery,
@@ -39,7 +39,10 @@ const RecommendationById = () => {
       )}
       {recommendations?.map((recommendation, index) => (
         <Center key={`${recommendation.userInput}${index}`} pb="md">
-          <BookContainer recommendationResponse={recommendation} />
+          <BookContainer
+            recommendationResponse={recommendation}
+            defaultSlide={Number(defaultSlide || 0)}
+          />
         </Center>
       ))}
       {isFetching && (

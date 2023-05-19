@@ -20,6 +20,14 @@ root.render(
         <HashRouter>
           <Routes>
             <Route
+              path="/recommendation/:id/:defaultSlide"
+              element={
+                <App>
+                  <RecommendationById />
+                </App>
+              }
+            />
+            <Route
               path="/recommendation/:id"
               element={
                 <App>
