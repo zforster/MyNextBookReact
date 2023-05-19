@@ -11,11 +11,16 @@ import ReactGA from "react-ga4";
 
 type BookContainerProps = {
   recommendationResponse: RecommendationResponse;
+  defaultSlide?: number;
 };
 
-const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
+const BookContainer = ({
+  recommendationResponse,
+  defaultSlide,
+}: BookContainerProps) => {
   const [resetCollapse, setResetCollapse] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(defaultSlide || 0);
 
   const date = new Date(recommendationResponse?.timestamp);
   const localTimestamp = new Date(
@@ -46,9 +51,13 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
           <Menu.Dropdown>
             <Menu.Item
               onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location}#/recommendation/${recommendationResponse.recommendationId}`
-                );
+                if (`${window.location}`.includes("#/recommendation/")) {
+                  navigator.clipboard.writeText(`${window.location}`);
+                } else {
+                  navigator.clipboard.writeText(
+                    `${window.location}#/recommendation/${recommendationResponse.recommendationId}/${currentSlide}`
+                  );
+                }
                 notifications.show({
                   title: "Success",
                   message: "Link Copied!",
@@ -94,6 +103,9 @@ const BookContainer = ({ recommendationResponse }: BookContainerProps) => {
         mx="auto"
         withIndicators
         loop
+        initialSlide={defaultSlide || 0}
+        onNextSlide={() => setCurrentSlide((prevSlide) => prevSlide + 1)}
+        onPreviousSlide={() => setCurrentSlide((prevSlide) => prevSlide - 1)}
       >
         {recommendationResponse?.books?.map((book) => (
           <Carousel.Slide
