@@ -3,6 +3,7 @@ import { useLazyFetchRecommendationsQuery } from "../apis/recommendation";
 import { useCallback, useEffect, useRef } from "react";
 import BookContainer from "../components/recommendation/container";
 import Welcome from "../components/welcome";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const bottomRef = useRef(null);
@@ -63,6 +64,9 @@ const Home = () => {
 
   return (
     <div>
+      <Helmet>
+        <link rel="canonical" href={`${window.location}`} />
+      </Helmet>
       {!isFetching && (
         <Center pb="md">
           <Welcome />

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import ReactGA from "react-ga4";
 import Welcome from "../components/welcome";
+import { Helmet } from "react-helmet-async";
 
 const RecommendationById = () => {
   const { id } = useParams();
@@ -27,6 +28,10 @@ const RecommendationById = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Recommendations | AI Book Recommendations</title>
+        <link rel="canonical" href={`${window.location}`} />
+      </Helmet>
       {!isFetching && (
         <Center pb="md">
           <Welcome />

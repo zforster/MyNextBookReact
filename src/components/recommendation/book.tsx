@@ -58,6 +58,7 @@ const Book = ({
         <Space h="sm" />
 
         <Image
+          alt={recommendation.title}
           radius={"sm"}
           src={recommendation.thumbnailUrl}
           width={isMobile ? 100 : 120}
