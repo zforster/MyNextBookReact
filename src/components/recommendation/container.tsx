@@ -72,6 +72,31 @@ const BookContainer = ({
             >
               Copy Link
             </Menu.Item>
+            <Menu.Item
+              onClick={() => {
+                const hostname = window.location.hostname;
+                const protocol =
+                  hostname === "localhost" ? "http://" : "https://";
+
+                const markdown = recommendationResponse.books.reduce(
+                  (markdown, book, index) => {
+                    const authors = book.authors.join(" & ");
+                    const bookMarkdown = `[${book.title}](${protocol}${hostname}/#/recommendation/${recommendationResponse.recommendationId}/${index}) - By ${authors}. ${book.description}`;
+                    return markdown + "\n\n" + bookMarkdown;
+                  },
+                  ""
+                );
+
+                navigator.clipboard.writeText(markdown);
+                notifications.show({
+                  title: "Success",
+                  message: "Markdown Copied!",
+                });
+              }}
+              icon={<IconCopy size={14} />}
+            >
+              Copy Markdown
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </div>
