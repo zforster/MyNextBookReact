@@ -1,4 +1,4 @@
-import { Center, Loader } from "@mantine/core";
+import { Center, Loader, Badge } from "@mantine/core";
 import { useLazyFetchRecommendationsQuery } from "../apis/recommendation";
 import { useCallback, useEffect, useRef } from "react";
 import BookContainer from "../components/recommendation/container";
@@ -70,6 +70,11 @@ const Home = () => {
       {!isFetching && (
         <Center pb="md">
           <Welcome />
+        </Center>
+      )}
+      {!isFetching && (
+        <Center pb="md">
+          <Badge>Latest Posts</Badge>
         </Center>
       )}
       {fetchExistingRecommendationsResponse?.recommendations.map(

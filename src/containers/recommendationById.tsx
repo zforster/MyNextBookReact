@@ -1,4 +1,4 @@
-import { Center, Loader } from "@mantine/core";
+import { Center, Loader, Badge } from "@mantine/core";
 import { useLazyFetchRecommendationByIdQuery } from "../apis/recommendation";
 import BookContainer from "../components/recommendation/container";
 import { useParams } from "react-router-dom";
@@ -35,6 +35,11 @@ const RecommendationById = () => {
       {!isFetching && (
         <Center pb="md">
           <Welcome />
+        </Center>
+      )}
+      {!isFetching && (
+        <Center pb="md">
+          <Badge>Latest Posts</Badge>
         </Center>
       )}
       {recommendations?.map((recommendation, index) => (
