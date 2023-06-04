@@ -7,8 +7,8 @@ import { Provider } from "react-redux";
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { store } from "./store";
 import RecommendationById from "./containers/recommendationById";
-import Home from "./containers/home";
 import { HelmetProvider } from "react-helmet-async";
+import Landing from "./containers/landing";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -35,14 +35,7 @@ root.render(
                 </App>
               }
             />
-            <Route
-              path="/"
-              element={
-                <App>
-                  <Home />
-                </App>
-              }
-            />
+            <Route path="/" element={<Landing />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </HashRouter>
