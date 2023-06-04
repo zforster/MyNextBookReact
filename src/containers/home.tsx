@@ -74,7 +74,7 @@ const Home = () => {
       )}
       {!isFetching && (
         <Center pb="md">
-          <Badge>Latest Posts</Badge>
+          <Badge>Recent Searches</Badge>
         </Center>
       )}
       {fetchExistingRecommendationsResponse?.recommendations.map(
