@@ -61,7 +61,6 @@ const Nav = () => {
   const links = [
     { link: "", label: "New Recommendation", icon: IconBook2 },
     { link: "", label: "My Bookmarks", icon: IconBookmark },
-    { link: "", label: "Recent Recommendations", icon: IconBooks },
   ].map((item) => (
     <a
       className={cx(classes.link, {
