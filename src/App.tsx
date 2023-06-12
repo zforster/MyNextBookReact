@@ -18,6 +18,11 @@ const useStyles = createStyles((theme) => ({
     borderBottom: `${rem(1)} solid ${theme.colors.gray[2]}`,
   },
 
+  title: {
+    textDecoration: "none",
+    color: "black",
+  },
+
   link: {
     display: "flex",
     alignItems: "center",
@@ -82,9 +87,11 @@ const Nav = () => {
     <Navbar height={"100%"} width={{ sm: 280 }} p="md">
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
-          <Text size="h4" weight="500">
-            PagePundit
-          </Text>
+          <a className={classes.title} href="/">
+            <Text size="xl" weight="500">
+              PagePundit
+            </Text>
+          </a>
         </Group>
         {links}
       </Navbar.Section>
