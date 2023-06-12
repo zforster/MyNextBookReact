@@ -13,7 +13,7 @@ const Landing = () => {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Helmet>
-        <title>PagePundit</title>
+        <title>PagePundit | AI Book Recommendations</title>
         <link rel="canonical" href={`${window.location}`} />
       </Helmet>
       <Center
@@ -66,6 +66,7 @@ const Landing = () => {
               backgroundSize: "300% 300%",
             }}
             size="md"
+            onClick={() => window.open("/#/home")}
           >
             Get Started Now!
           </Button>
