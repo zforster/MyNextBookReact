@@ -1,11 +1,11 @@
-import { AppShell, MantineProvider, Navbar, Text, Title } from "@mantine/core";
+import { AppShell, MantineProvider, Navbar, Text } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { ReactNode, useEffect } from "react";
 import ReactGA from "react-ga4";
 
 import { useState } from "react";
 import { createStyles, Group, getStylesRef, rem } from "@mantine/core";
-import { IconBookmark, IconBook2, IconBooks } from "@tabler/icons";
+import { IconBookmark, IconBook2 } from "@tabler/icons";
 
 interface AppProps {
   children: ReactNode;
@@ -105,7 +105,11 @@ const App = ({ children }: AppProps) => {
   }, []);
 
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      theme={{ primaryColor: "gray" }}
+      withGlobalStyles
+      withNormalizeCSS
+    >
       <Notifications position="top-right" />
       <AppShell navbar={<Nav />}>{children}</AppShell>
     </MantineProvider>
