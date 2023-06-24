@@ -9,6 +9,7 @@ import { store } from "./store";
 import { HelmetProvider } from "react-helmet-async";
 import Landing from "./containers/landing";
 import Home from "./containers/home";
+import Recommendation from "./containers/recommendation";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -19,6 +20,14 @@ root.render(
       <Provider store={store}>
         <HashRouter>
           <Routes>
+            <Route
+              path="/recommendation/:id/:bookIndex"
+              element={
+                <App>
+                  <Recommendation />
+                </App>
+              }
+            />
             <Route
               path="/home"
               element={

@@ -20,17 +20,11 @@ export interface RecommendationResponse {
   books: Book[];
 }
 
-export interface ExclusiveStartKey {
-  recommendationType: string;
-  timestamp: string;
+export interface BookIdentifier {
+  recommendationId: string;
+  index: string;
 }
 
-export interface ExclusiveStartKeyInput {
-  timestamp: string | null;
-  recommendationType: string;
-}
-
-export interface FetchBookRecommendationsResponse {
-  recommendations: RecommendationResponse[];
-  exclusiveStartKey: ExclusiveStartKey | null;
+export interface StringResponse {
+  data: string;
 }

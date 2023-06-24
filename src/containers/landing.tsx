@@ -66,7 +66,7 @@ const Landing = () => {
               backgroundSize: "300% 300%",
             }}
             size="md"
-            onClick={() => window.open("/#/home")}
+            onClick={() => window.open("/#/home", "_self")}
           >
             Get Started Now!
           </Button>

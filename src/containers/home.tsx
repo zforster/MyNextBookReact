@@ -11,15 +11,12 @@ import { useGetRecommendationsFromTextMutation } from "../apis/recommendation";
 import { useState } from "react";
 import { getHotkeyHandler } from "@mantine/hooks";
 import ReactGA from "react-ga4";
-import data from "./data";
 
 const Home = () => {
   const [textValue, setTextValue] = useState("");
 
   const [getRecommendations, { data: searchResults, isLoading, isError }] =
     useGetRecommendationsFromTextMutation();
-
-  const suggestions = searchResults === undefined ? data : searchResults;
 
   const formatNames = (names: string[]) => {
     switch (names.length) {
@@ -108,47 +105,47 @@ const Home = () => {
         py="xl"
       >
         {!isLoading &&
-          suggestions?.books.map((book) => (
-            <a
-              target="_blank"
-              key={book.title}
-              href={`https://amazon.com/${book.amazonSearchUrl}&tag=pagepundit-20`}
-              style={{ textDecoration: "none", color: "black" }}
-              rel="noreferrer"
+          searchResults?.books.map((book, index) => (
+            <Container
+              miw="220px"
+              maw="220px"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "start",
+                justifyContent: "start",
+              }}
             >
-              <Container
-                miw="220px"
-                maw="220px"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                  justifyContent: "start",
+              <Image
+                onClick={() =>
+                  window.open(
+                    `/#/recommendation/${searchResults.recommendationId}/${index}`,
+                    "_self"
+                  )
+                }
+                sx={{
+                  "&:hover": {
+                    opacity: "0.8",
+                    cursor: "pointer",
+                  },
                 }}
-              >
-                <Image
-                  sx={{
-                    "&:hover": {
-                      opacity: "0.8",
-                    },
-                  }}
-                  style={{
-                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 4px 24px",
-                  }}
-                  alt={book.title}
-                  radius={"sm"}
-                  src={book.thumbnailUrl}
-                  width={128}
-                  height={192}
-                  mb={"sm"}
-                />
-                <Text>{convertCapitalToCamelCase(book.title)}</Text>
+                style={{
+                  boxShadow: "rgba(149, 157, 165, 0.2) 0px 4px 24px",
+                }}
+                alt={book.title}
+                radius={"sm"}
+                src={book.thumbnailUrl}
+                width={128}
+                height={192}
+                mb={"sm"}
+              />
+              <Text>{convertCapitalToCamelCase(book.title)}</Text>
+              {book.authors && (
                 <Text size="sm">
-                  {book.authors &&
-                    convertCapitalToCamelCase(formatNames(book.authors))}
+                  {convertCapitalToCamelCase(formatNames(book.authors))}
                 </Text>
-              </Container>
-            </a>
+              )}
+            </Container>
           ))}
       </Container>
     </Container>
