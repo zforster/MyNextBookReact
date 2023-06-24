@@ -5,7 +5,7 @@ import ReactGA from "react-ga4";
 
 import { useState } from "react";
 import { createStyles, Group, getStylesRef, rem } from "@mantine/core";
-import { IconBookmark, IconBook2 } from "@tabler/icons";
+import { IconBook2 } from "@tabler/icons";
 
 interface AppProps {
   children: ReactNode;
@@ -65,7 +65,6 @@ const Nav = () => {
 
   const links = [
     { link: "", label: "New Recommendation", icon: IconBook2 },
-    { link: "", label: "My Bookmarks", icon: IconBookmark },
   ].map((item) => (
     <a
       className={cx(classes.link, {

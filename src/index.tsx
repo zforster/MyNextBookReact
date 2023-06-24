@@ -8,7 +8,7 @@ import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { store } from "./store";
 import { HelmetProvider } from "react-helmet-async";
 import Landing from "./containers/landing";
-import Home from "./containers/newHome";
+import Home from "./containers/home";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
