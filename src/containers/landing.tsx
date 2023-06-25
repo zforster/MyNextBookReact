@@ -9,7 +9,11 @@ import {
 import { Helmet } from "react-helmet-async";
 import "../styles/animation.css";
 
+import { useMediaQuery } from "@mantine/hooks";
+
 const Landing = () => {
+  const isMobile = useMediaQuery("(max-width: 41em)");
+
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Helmet>
@@ -23,7 +27,7 @@ const Landing = () => {
           paddingTop: "50px",
         }}
       >
-        <Title py="xl" size="h2" color="#16b576">
+        <Title py="xl" size={isMobile ? "h5" : "h2"} color="#16b576">
           PagePundit
         </Title>
 
@@ -35,12 +39,12 @@ const Landing = () => {
             textShadow: "0 3px 0 #e2e2e2",
           }}
         >
-          <Title size="50px" align="center">
+          <Title size={isMobile ? "25px" : "50px"} align="center" px="xl">
             AI Book Recommendations
             <span
               style={{
                 paddingLeft: "10px",
-                fontSize: "50px",
+                fontSize: isMobile ? "25px" : "50px",
               }}
             >
               📖
@@ -48,7 +52,14 @@ const Landing = () => {
           </Title>
         </Container>
 
-        <Text maw="500px" align="center" size="20px" py="xl" color="#71717a">
+        <Text
+          maw="500px"
+          align="center"
+          size={isMobile ? "15px" : "20px"}
+          py="xl"
+          px="xl"
+          color="#71717a"
+        >
           Let{" "}
           <span style={{ color: "#2e2e2e", fontWeight: "bold" }}>
             Artifical Intelligence
@@ -65,7 +76,7 @@ const Landing = () => {
               animation: "gradientAnimation 3.5s ease infinite alternate",
               backgroundSize: "300% 300%",
             }}
-            size="md"
+            size={isMobile ? "sm" : "md"}
             onClick={() => window.open("/#/home", "_self")}
           >
             Get Started Now!
