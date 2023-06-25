@@ -73,7 +73,7 @@ const Home = () => {
               display: "flex",
               flexDirection: "column",
             }}
-            py="xl"
+            py="md"
           >
             <Loader size="md" color="#71717a" />
             <Text
@@ -140,7 +140,7 @@ const Home = () => {
                 mb={"sm"}
               />
               <Text>{convertCapitalToCamelCase(book.title)}</Text>
-              {book.authors && (
+              {book.authors.length > 0 && (
                 <Text size="sm">
                   {convertCapitalToCamelCase(formatNames(book.authors))}
                 </Text>

@@ -195,48 +195,54 @@ const Recommendation = () => {
             }}
             py="md"
           >
-            {recommendation?.books.map((book, index) => (
-              <Container
-                miw="220px"
-                maw="220px"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                  justifyContent: "start",
-                }}
-              >
-                <Image
-                  onClick={() =>
-                    window.open(
-                      `/#/recommendation/${recommendation.recommendationId}/${index}`,
-                      "_self"
-                    )
-                  }
-                  sx={{
-                    "&:hover": {
-                      opacity: "0.8",
-                      cursor: "pointer",
-                    },
-                  }}
+            {recommendation?.books.map((book, index) => {
+              if (convertCapitalToCamelCase(book.title) === bookTitle) {
+                return null;
+              }
+              return (
+                <Container
+                  key={index}
+                  miw="220px"
+                  maw="220px"
                   style={{
-                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 4px 24px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                    justifyContent: "start",
                   }}
-                  alt={book.title}
-                  radius={"sm"}
-                  src={book.thumbnailUrl}
-                  width={128}
-                  height={192}
-                  mb={"sm"}
-                />
-                <Text>{convertCapitalToCamelCase(book.title)}</Text>
-                {book.authors && (
-                  <Text size="sm">
-                    {convertCapitalToCamelCase(formatNames(book.authors))}
-                  </Text>
-                )}
-              </Container>
-            ))}
+                >
+                  <Image
+                    onClick={() =>
+                      window.open(
+                        `/#/recommendation/${recommendation.recommendationId}/${index}`,
+                        "_self"
+                      )
+                    }
+                    sx={{
+                      "&:hover": {
+                        opacity: "0.8",
+                        cursor: "pointer",
+                      },
+                    }}
+                    style={{
+                      boxShadow: "rgba(149, 157, 165, 0.2) 0px 4px 24px",
+                    }}
+                    alt={book.title}
+                    radius={"sm"}
+                    src={book.thumbnailUrl}
+                    width={128}
+                    height={192}
+                    mb={"sm"}
+                  />
+                  <Text>{convertCapitalToCamelCase(book.title)}</Text>
+                  {book.authors.length > 0 && (
+                    <Text size="sm">
+                      {convertCapitalToCamelCase(formatNames(book.authors))}
+                    </Text>
+                  )}
+                </Container>
+              );
+            })}
           </Container>
         </Container>
       </Container>
