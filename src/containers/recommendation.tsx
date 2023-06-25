@@ -1,23 +1,28 @@
 import {
+  ActionIcon,
   Button,
   Center,
   Container,
   Divider,
   Image,
   Loader,
+  Menu,
   Text,
   Title,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { useParams } from "react-router-dom";
 import {
   useLazyGetReasonQuery,
   useLazyGetSummaryQuery,
   useLazyFetchRecommendationByIdQuery,
 } from "../apis/recommendation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { IconCopy, IconDotsVertical } from "@tabler/icons";
 
 const Recommendation = () => {
   const { id, bookIndex } = useParams();
+  const [openMenu, setOpenMenu] = useState(false);
 
   const [
     getRecommendationQuery,
@@ -100,14 +105,72 @@ const Recommendation = () => {
     const bookTitle = convertCapitalToCamelCase(book.title);
     return (
       <Container>
-        <Title pt="xl" size="h2">
-          {bookTitle}
-        </Title>
-        {book.authors && (
-          <Text pb="sm">
-            {convertCapitalToCamelCase(formatNames(book.authors))}
-          </Text>
-        )}
+        <Container
+          px={0}
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Menu opened={openMenu} onChange={setOpenMenu}>
+            <Menu.Target>
+              <ActionIcon size="sm">
+                <IconDotsVertical />
+              </ActionIcon>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Item
+                onClick={() => {
+                  navigator.clipboard.writeText(`${window.location}`);
+
+                  notifications.show({
+                    title: "Success",
+                    message: "Link Copied!",
+                  });
+                }}
+                icon={<IconCopy size={14} />}
+              >
+                Copy Link
+              </Menu.Item>
+              <Menu.Item
+                onClick={() => {
+                  const hostname = window.location.hostname;
+                  const protocol =
+                    hostname === "localhost" ? "http://" : "https://";
+
+                  const markdown = recommendation?.books.reduce(
+                    (markdown, book, index) => {
+                      const authors = book.authors.join(" & ");
+                      const bookMarkdown = `[${book.title}](${protocol}${hostname}/#/recommendation/${recommendation.recommendationId}/${bookIndex}) - By ${authors}.`;
+                      return markdown + "\n\n" + bookMarkdown;
+                    },
+                    ""
+                  );
+
+                  navigator.clipboard.writeText(markdown);
+                  notifications.show({
+                    title: "Success",
+                    message: "Markdown Copied!",
+                  });
+                }}
+                icon={<IconCopy size={14} />}
+              >
+                Copy Markdown
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+          <Container mx={0}>
+            <Title pt="xl" size="h2">
+              {bookTitle}
+            </Title>
+            {book.authors && (
+              <Text pb="sm">
+                {convertCapitalToCamelCase(formatNames(book.authors))}
+              </Text>
+            )}
+          </Container>
+        </Container>
         <Divider pb="xl" />
 
         <Container style={{ display: "flex" }} px="0" pb="xl">
