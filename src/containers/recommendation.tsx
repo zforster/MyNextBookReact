@@ -1,4 +1,5 @@
 import {
+  Button,
   Center,
   Container,
   Divider,
@@ -27,35 +28,23 @@ const Recommendation = () => {
     },
   ] = useLazyFetchRecommendationByIdQuery();
 
-  const [
-    getReasonQuery,
-    {
-      data: reason,
-      isFetching: isFetchingReason,
-      isUninitialized: isReasonUninitalized,
-    },
-  ] = useLazyGetReasonQuery();
+  const [getReasonQuery, { data: reason, isFetching: isFetchingReason }] =
+    useLazyGetReasonQuery();
 
-  const [
-    getSummaryQuery,
-    {
-      data: summary,
-      isFetching: isFetchingSummary,
-      isUninitialized: isSummaryUninitalized,
-    },
-  ] = useLazyGetSummaryQuery();
+  const [getSummaryQuery, { data: summary, isFetching: isFetchingSummary }] =
+    useLazyGetSummaryQuery();
 
   useEffect(() => {
-    if (isReasonUninitalized && id !== undefined && bookIndex !== undefined) {
+    if (id !== undefined && bookIndex !== undefined) {
       getReasonQuery({ recommendationId: id, index: bookIndex });
     }
-  }, [getReasonQuery, isReasonUninitalized, id, bookIndex]);
+  }, [getReasonQuery, id, bookIndex]);
 
   useEffect(() => {
-    if (isSummaryUninitalized && id !== undefined && bookIndex !== undefined) {
+    if (id !== undefined && bookIndex !== undefined) {
       getSummaryQuery({ recommendationId: id, index: bookIndex });
     }
-  }, [getSummaryQuery, isSummaryUninitalized, id, bookIndex]);
+  }, [getSummaryQuery, id, bookIndex]);
 
   useEffect(() => {
     if (
@@ -85,16 +74,6 @@ const Recommendation = () => {
       }, "")
       .trim();
   };
-
-  {
-    /* <a */
-  }
-  //   target="_blank"
-  //   key={book.title}
-  //   href={`https://amazon.com/${book.amazonSearchUrl}&tag=pagepundit-20`}
-  //   style={{ textDecoration: "none", color: "black" }}
-  //   rel="noreferrer"
-  // ></a>
 
   if (isFetchingReason || isFetchingSummary || isFetchingRecommendation) {
     return (
@@ -129,10 +108,19 @@ const Recommendation = () => {
             {convertCapitalToCamelCase(formatNames(book.authors))}
           </Text>
         )}
-        <Divider pb="md" />
+        <Divider pb="xl" />
 
-        <Container style={{ display: "flex" }} px="0">
-          {/* <Container px="0">
+        <Container style={{ display: "flex" }} px="0" pb="xl">
+          <Container
+            pl="0"
+            pr="xl"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
             <Image
               onClick={() =>
                 window.open(
@@ -152,11 +140,28 @@ const Recommendation = () => {
               alt={book.title}
               radius={"sm"}
               src={book.thumbnailUrl}
-              width={128}
-              height={192}
+              width={128 * 1.1}
+              height={192 * 1.1}
               mb={"sm"}
             />
-          </Container> */}
+            <Button
+              onClick={() =>
+                window.open(
+                  `https://amazon.com/${book.amazonSearchUrl}&tag=pagepundit-20`,
+                  "_blank"
+                )
+              }
+              className="gradient-button"
+              style={{
+                background:
+                  "linear-gradient(60deg, #16b576, #5073b8, #1098ad, #07b39b, #6fba82)",
+                animation: "gradientAnimation 3.5s ease infinite alternate",
+                backgroundSize: "300% 300%",
+              }}
+            >
+              Find on Amazon
+            </Button>
+          </Container>
 
           <Container px="0">
             <Title pb="xs" size="h5">
@@ -164,10 +169,74 @@ const Recommendation = () => {
             </Title>
             <Text size="md">{summary?.data}</Text>
 
-            <Title pt="xl" pb="xs" size="h5">
-              Why will you enjoy {book.title}?
+            <Title pt="lg" pb="xs" size="h5">
+              Why we think you'll enjoy {book.title}
             </Title>
             <Text size="md">{reason?.data}</Text>
+          </Container>
+        </Container>
+
+        <Divider pb="md" />
+
+        <Container px="0">
+          <Title pb="xs" size="h5">
+            Other books we recommend
+          </Title>
+          <Container
+            style={{
+              display: "grid",
+              justifyItems: "start",
+              alignItems: "start",
+              gridAutoColumns: "1fr",
+              gridColumnGap: "2rem",
+              gridRowGap: "4rem",
+              gridTemplateColumns: "repeat(auto-fit,minmax(11em,1fr))",
+              gridTemplateRows: "auto",
+            }}
+            py="md"
+          >
+            {recommendation?.books.map((book, index) => (
+              <Container
+                miw="220px"
+                maw="220px"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  justifyContent: "start",
+                }}
+              >
+                <Image
+                  onClick={() =>
+                    window.open(
+                      `/#/recommendation/${recommendation.recommendationId}/${index}`,
+                      "_self"
+                    )
+                  }
+                  sx={{
+                    "&:hover": {
+                      opacity: "0.8",
+                      cursor: "pointer",
+                    },
+                  }}
+                  style={{
+                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 4px 24px",
+                  }}
+                  alt={book.title}
+                  radius={"sm"}
+                  src={book.thumbnailUrl}
+                  width={128}
+                  height={192}
+                  mb={"sm"}
+                />
+                <Text>{convertCapitalToCamelCase(book.title)}</Text>
+                {book.authors && (
+                  <Text size="sm">
+                    {convertCapitalToCamelCase(formatNames(book.authors))}
+                  </Text>
+                )}
+              </Container>
+            ))}
           </Container>
         </Container>
       </Container>

@@ -57,7 +57,7 @@ const Nav = () => {
   const [active, setActive] = useState("New Recommendation");
 
   const links = [
-    { link: "", label: "New Recommendation", icon: IconBook2 },
+    { link: "/#/home", label: "New Recommendation", icon: IconBook2 },
   ].map((item) => (
     <a
       className={cx(classes.link, {
@@ -65,9 +65,9 @@ const Nav = () => {
       })}
       href={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
+      onClick={() => {
         setActive(item.label);
+        window.open(item.link, "_self");
       }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
@@ -79,7 +79,7 @@ const Nav = () => {
     <Navbar height={"100%"} width={{ sm: 280 }} p="md">
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
-          <a className={classes.title} href="/">
+          <a className={classes.title} href="/#/home">
             <Text size="xl" weight="500">
               PagePundit
             </Text>
