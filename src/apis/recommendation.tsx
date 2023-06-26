@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
+  BookIdentifier,
   RecommendationResponse,
-  FetchBookRecommendationsResponse,
-  ExclusiveStartKeyInput,
+  StringResponse,
 } from "../datatypes/recommendation";
 
 const API_BASE =
@@ -24,66 +24,25 @@ export const recommendationAPI = createApi({
           body,
         };
       },
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          const { data: recommendation } = await queryFulfilled;
-          dispatch(
-            recommendationAPI.util.updateQueryData(
-              "fetchRecommendations",
-              // @ts-ignore
-              "fetchRecommendations",
-              (draft) => {
-                const updatedRecommendations = [
-                  recommendation,
-                  ...draft.recommendations,
-                ];
-                Object.assign(draft.recommendations, updatedRecommendations);
-              }
-            )
-          );
-          dispatch(
-            recommendationAPI.util.updateQueryData(
-              "fetchRecommendationById",
-              // @ts-ignore
-              "fetchRecommendationById",
-              (draft) => {
-                const updatedRecommendations = [recommendation, ...draft];
-                Object.assign(draft, updatedRecommendations);
-              }
-            )
-          );
-        } catch {}
-      },
     }),
-    fetchRecommendations: build.query<
-      FetchBookRecommendationsResponse,
-      ExclusiveStartKeyInput
-    >({
-      query: (exclusiveStartKeyInput) =>
-        `recommendations/${exclusiveStartKeyInput.recommendationType}/${exclusiveStartKeyInput.timestamp}`,
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      merge: (currentCache, newItems) => {
-        currentCache.recommendations.push(...newItems.recommendations);
-        currentCache.exclusiveStartKey = newItems.exclusiveStartKey;
-      },
+    getSummary: build.query<StringResponse, BookIdentifier>({
+      query: (bookIdentifier) =>
+        `summary/${bookIdentifier.recommendationId}/${bookIdentifier.index}`,
     }),
-    fetchRecommendationById: build.query<RecommendationResponse[], string>({
+    getReason: build.query<StringResponse, BookIdentifier>({
+      query: (bookIdentifier) =>
+        `reason/${bookIdentifier.recommendationId}/${bookIdentifier.index}`,
+    }),
+    fetchRecommendationById: build.query<RecommendationResponse, string>({
       query: (recommendationId) => recommendationId,
-      serializeQueryArgs: () => {
-        return "fetchRecommendationById";
-      },
-      transformResponse: (response: RecommendationResponse) => {
-        return [response];
-      },
     }),
   }),
 });
 
 export const {
   useGetRecommendationsFromTextMutation,
-  useLazyFetchRecommendationsQuery,
+  useLazyGetSummaryQuery,
+  useLazyGetReasonQuery,
   useLazyFetchRecommendationByIdQuery,
   endpoints,
 } = recommendationAPI;

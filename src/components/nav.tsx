@@ -1,48 +1,52 @@
-import { Navbar, createStyles, getStylesRef } from "@mantine/core";
-import { IconHome, IconBookmark } from "@tabler/icons";
+import { Navbar, Text } from "@mantine/core";
+
 import { useState } from "react";
+import { createStyles, Group, getStylesRef, rem } from "@mantine/core";
+import { IconBook2 } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
+  header: {
+    paddingBottom: theme.spacing.md,
+    marginBottom: `calc(${theme.spacing.md} * 1.5)`,
+    borderBottom: `${rem(1)} solid ${theme.colors.gray[2]}`,
+  },
+
+  title: {
+    textDecoration: "none",
+    color: "black",
+  },
+
   link: {
     display: "flex",
     alignItems: "center",
     textDecoration: "none",
     fontSize: theme.fontSizes.sm,
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[1]
-        : theme.colors.gray[7],
+    color: theme.colors.gray[8],
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor: theme.colors.dark[6],
-      color: theme.white,
-
+      backgroundColor: theme.colors.gray[0],
+      color: theme.black,
       [`& .${getStylesRef("icon")}`]: {
-        color: theme.colorScheme === "dark" ? theme.white : theme.black,
+        color: theme.black,
       },
     },
   },
 
   linkIcon: {
     ref: getStylesRef("icon"),
-    color: theme.colors.dark[2],
+    color: theme.colors.gray[7],
     marginRight: theme.spacing.sm,
   },
 
   linkActive: {
     "&, &:hover": {
-      backgroundColor: theme.fn.variant({
-        variant: "light",
-        color: theme.primaryColor,
-      }).background,
-      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-        .color,
+      backgroundColor: theme.colors.gray[0],
+      color: theme.black,
       [`& .${getStylesRef("icon")}`]: {
-        color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-          .color,
+        color: theme.black,
       },
     },
   },
@@ -50,11 +54,10 @@ const useStyles = createStyles((theme) => ({
 
 const Nav = () => {
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState("Home");
+  const [active, setActive] = useState("New Recommendation");
 
   const links = [
-    { link: "", label: "Home", icon: IconHome },
-    { link: "", label: "Bookmarks", icon: IconBookmark },
+    { link: "/#/home", label: "New Recommendation", icon: IconBook2 },
   ].map((item) => (
     <a
       className={cx(classes.link, {
@@ -62,9 +65,9 @@ const Nav = () => {
       })}
       href={item.link}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
+      onClick={() => {
         setActive(item.label);
+        window.open(item.link, "_self");
       }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
@@ -73,8 +76,17 @@ const Nav = () => {
   ));
 
   return (
-    <Navbar width={{ base: 400 }} p="sm">
-      {links}
+    <Navbar height={"100%"} width={{ sm: 280 }} p="md">
+      <Navbar.Section grow>
+        <Group className={classes.header} position="apart">
+          <a className={classes.title} href="/#/home">
+            <Text size="xl" weight="500">
+              PagePundit
+            </Text>
+          </a>
+        </Group>
+        {links}
+      </Navbar.Section>
     </Navbar>
   );
 };
