@@ -197,7 +197,7 @@ const Recommendation = () => {
             <Image
               onClick={() =>
                 window.open(
-                  `https://amazon.com/${book.amazonSearchUrl}&tag=pagepundit-20`,
+                  `https://amazon.com/${book.amazonSearchUrl}&tag=pagepundit0c-20`,
                   "_blank"
                 )
               }
@@ -220,7 +220,7 @@ const Recommendation = () => {
             <Button
               onClick={() =>
                 window.open(
-                  `https://amazon.com/${book.amazonSearchUrl}&tag=pagepundit-20`,
+                  `https://amazon.com/${book.amazonSearchUrl}&tag=pagepundit0c-20`,
                   "_blank"
                 )
               }
