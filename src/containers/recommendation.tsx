@@ -145,7 +145,7 @@ const Recommendation = () => {
                   const markdown = recommendation?.books.reduce(
                     (markdown, book, index) => {
                       const authors = book.authors.join(" & ");
-                      const bookMarkdown = `[${book.title}](${protocol}${hostname}/#/recommendation/${recommendation.recommendationId}/${bookIndex}) - By ${authors}.`;
+                      const bookMarkdown = `[${book.title}](${protocol}${hostname}/#/recommendation/${recommendation.recommendationId}/${index}) - By ${authors}.`;
                       return markdown + "\n\n" + bookMarkdown;
                     },
                     ""
