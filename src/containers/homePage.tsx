@@ -109,7 +109,7 @@ const HomePage = () => {
             }}
             py={isMobile ? "xl" : "md"}
           >
-            <Loader size={isMobile ? "sm" : "md"} color="#71717a" />
+            <Loader size={"md"} color="#71717a" />
             <Text
               size={isMobile ? "sm" : "md"}
               align="center"
