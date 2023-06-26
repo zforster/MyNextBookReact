@@ -15,6 +15,11 @@ import { useDisclosure } from "@mantine/hooks";
 const HEADER_HEIGHT = rem(60);
 
 const useStyles = createStyles((theme) => ({
+  title: {
+    textDecoration: "none",
+    color: "black",
+  },
+
   dropdown: {
     position: "absolute",
     top: HEADER_HEIGHT,
@@ -81,6 +86,7 @@ export const HeaderBanner = () => {
       onClick={(event) => {
         event.preventDefault();
         setActive(link.link);
+        window.open(link.link, "_self");
         close();
       }}
     >
@@ -91,9 +97,11 @@ export const HeaderBanner = () => {
   return (
     <Header height={HEADER_HEIGHT}>
       <Container className={classes.header}>
-        <Text size="xl" weight="500">
-          PagePundit
-        </Text>
+        <a className={classes.title} href="/#/home">
+          <Text size="xl" weight="500">
+            PagePundit
+          </Text>
+        </a>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>

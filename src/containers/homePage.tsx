@@ -43,7 +43,7 @@ const HomePage = () => {
 
   return (
     <Container>
-      <Container py="sm">
+      <Container py={isMobile ? "0" : "sm"} px={isMobile ? "0" : "md"}>
         {isMobile ? (
           <TextInput
             error={isError && "Sorry, something went wrong"}
@@ -107,10 +107,11 @@ const HomePage = () => {
               display: "flex",
               flexDirection: "column",
             }}
-            py="md"
+            py={isMobile ? "xl" : "md"}
           >
-            <Loader size="md" color="#71717a" />
+            <Loader size={isMobile ? "sm" : "md"} color="#71717a" />
             <Text
+              size={isMobile ? "sm" : "md"}
               align="center"
               pt="sm"
               color="#71717a"
@@ -135,6 +136,7 @@ const HomePage = () => {
           gridRowGap: "4rem",
           gridTemplateColumns: "repeat(auto-fit,minmax(11em,1fr))",
           gridTemplateRows: "auto",
+          maxWidth: "none",
         }}
         py="xl"
       >
@@ -146,8 +148,8 @@ const HomePage = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "start",
-                justifyContent: "start",
+                alignItems: isMobile ? "center" : "start",
+                justifyContent: isMobile ? "center" : "start",
               }}
             >
               <Image
@@ -175,7 +177,7 @@ const HomePage = () => {
               />
               <Text>{convertCapitalToCamelCase(book.title)}</Text>
               {book.authors.length > 0 && (
-                <Text size="sm">
+                <Text size="sm" align={isMobile ? "center" : "left"}>
                   {convertCapitalToCamelCase(formatNames(book.authors))}
                 </Text>
               )}

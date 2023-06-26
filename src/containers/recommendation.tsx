@@ -17,10 +17,13 @@ import {
   useLazyGetSummaryQuery,
   useLazyFetchRecommendationByIdQuery,
 } from "../apis/recommendation";
+import { useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { IconCopy, IconDotsVertical } from "@tabler/icons";
 
 const Recommendation = () => {
+  const isMobile = useMediaQuery("(max-width: 55em)");
+
   const { id, bookIndex } = useParams();
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -104,7 +107,7 @@ const Recommendation = () => {
     const book = recommendation?.books[parseInt(bookIndex)];
     const bookTitle = convertCapitalToCamelCase(book.title);
     return (
-      <Container>
+      <Container px={isMobile ? 0 : "md"}>
         <Container
           px={0}
           style={{
@@ -161,7 +164,7 @@ const Recommendation = () => {
             </Menu.Dropdown>
           </Menu>
           <Container mx={0}>
-            <Title pt="xl" size="h2">
+            <Title pt={isMobile ? "0" : "xl"} size="h2">
               {bookTitle}
             </Title>
             {book.authors && (
@@ -173,10 +176,17 @@ const Recommendation = () => {
         </Container>
         <Divider pb="xl" />
 
-        <Container style={{ display: "flex" }} px="0" pb="xl">
+        <Container
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+          }}
+          px="0"
+          pb="xl"
+        >
           <Container
             pl="0"
-            pr="xl"
+            pr={isMobile ? "0" : "xl"}
             style={{
               display: "flex",
               alignItems: "center",
@@ -221,6 +231,7 @@ const Recommendation = () => {
                 animation: "gradientAnimation 3.5s ease infinite alternate",
                 backgroundSize: "300% 300%",
               }}
+              mb={isMobile ? "md" : "0"}
             >
               Find on Amazon
             </Button>
@@ -255,6 +266,7 @@ const Recommendation = () => {
               gridRowGap: "4rem",
               gridTemplateColumns: "repeat(auto-fit,minmax(11em,1fr))",
               gridTemplateRows: "auto",
+              maxWidth: "none",
             }}
             py="md"
           >
@@ -270,8 +282,8 @@ const Recommendation = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "start",
-                    justifyContent: "start",
+                    alignItems: isMobile ? "center" : "start",
+                    justifyContent: isMobile ? "center" : "start",
                   }}
                 >
                   <Image
@@ -299,7 +311,7 @@ const Recommendation = () => {
                   />
                   <Text>{convertCapitalToCamelCase(book.title)}</Text>
                   {book.authors.length > 0 && (
-                    <Text size="sm">
+                    <Text size="sm" align={isMobile ? "center" : "left"}>
                       {convertCapitalToCamelCase(formatNames(book.authors))}
                     </Text>
                   )}
