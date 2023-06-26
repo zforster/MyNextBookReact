@@ -12,7 +12,7 @@ import "../styles/animation.css";
 import { useMediaQuery } from "@mantine/hooks";
 
 const Landing = () => {
-  const isMobile = useMediaQuery("(max-width: 41em)");
+  const isMobile = useMediaQuery("(max-width: 55em)");
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -27,7 +27,7 @@ const Landing = () => {
           paddingTop: "50px",
         }}
       >
-        <Title py="xl" size={isMobile ? "h5" : "h2"} color="#16b576">
+        <Title py="xl" size={isMobile ? "h3" : "h2"} color="#16b576">
           PagePundit
         </Title>
 
@@ -39,12 +39,16 @@ const Landing = () => {
             textShadow: "0 3px 0 #e2e2e2",
           }}
         >
-          <Title size={isMobile ? "25px" : "50px"} align="center" px="xl">
+          <Title
+            size={isMobile ? "30px" : "50px"}
+            align="center"
+            px={isMobile ? "sm" : "xl"}
+          >
             AI Book Recommendations
             <span
               style={{
-                paddingLeft: "10px",
-                fontSize: isMobile ? "25px" : "50px",
+                paddingLeft: isMobile ? "7px" : "10px",
+                fontSize: isMobile ? "30px" : "50px",
               }}
             >
               📖
@@ -55,7 +59,7 @@ const Landing = () => {
         <Text
           maw="500px"
           align="center"
-          size={isMobile ? "15px" : "20px"}
+          size={isMobile ? "17px" : "20px"}
           py="xl"
           px="xl"
           color="#71717a"
@@ -67,7 +71,7 @@ const Landing = () => {
           take the hassle out of finding your next great read
         </Text>
 
-        <Container py="xl">
+        <Container py={isMobile ? "sm" : "xl"}>
           <Button
             className="gradient-button"
             style={{
@@ -76,7 +80,7 @@ const Landing = () => {
               animation: "gradientAnimation 3.5s ease infinite alternate",
               backgroundSize: "300% 300%",
             }}
-            size={isMobile ? "sm" : "md"}
+            size={"md"}
             onClick={() => window.open("/#/home", "_self")}
           >
             Get Started Now!
