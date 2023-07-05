@@ -15,7 +15,7 @@ const App = ({ children }: AppProps) => {
     ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS as string);
   }, []);
 
-  const isMobile = useMediaQuery("(max-width: 55em)");
+  const isMobile = useMediaQuery("(max-width: 70em)");
 
   return (
     <MantineProvider

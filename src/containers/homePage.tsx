@@ -15,7 +15,7 @@ import ReactGA from "react-ga4";
 import { useMediaQuery } from "@mantine/hooks";
 
 const HomePage = () => {
-  const isMobile = useMediaQuery("(max-width: 55em)");
+  const isMobile = useMediaQuery("(max-width: 70em)");
 
   const [textValue, setTextValue] = useState("");
 

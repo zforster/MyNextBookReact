@@ -12,7 +12,7 @@ import "../styles/animation.css";
 import { useMediaQuery } from "@mantine/hooks";
 
 const Landing = () => {
-  const isMobile = useMediaQuery("(max-width: 55em)");
+  const isMobile = useMediaQuery("(max-width: 70em)");
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>

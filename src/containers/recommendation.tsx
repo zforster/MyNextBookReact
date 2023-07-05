@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import { IconCopy, IconDotsVertical } from "@tabler/icons";
 
 const Recommendation = () => {
-  const isMobile = useMediaQuery("(max-width: 55em)");
+  const isMobile = useMediaQuery("(max-width: 70em)");
 
   const { id, bookIndex } = useParams();
   const [openMenu, setOpenMenu] = useState(false);
@@ -309,7 +309,9 @@ const Recommendation = () => {
                     height={192}
                     mb={"sm"}
                   />
-                  <Text>{convertCapitalToCamelCase(book.title)}</Text>
+                  <Text align={isMobile ? "center" : "left"}>
+                    {convertCapitalToCamelCase(book.title)}
+                  </Text>
                   {book.authors.length > 0 && (
                     <Text size="sm" align={isMobile ? "center" : "left"}>
                       {convertCapitalToCamelCase(formatNames(book.authors))}
