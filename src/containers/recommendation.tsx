@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import { IconCopy, IconDotsVertical } from "@tabler/icons";
 
 const Recommendation = () => {
-  const isMobile = useMediaQuery("(max-width: 55em)");
+  const isMobile = useMediaQuery("(max-width: 70em)");
 
   const { id, bookIndex } = useParams();
   const [openMenu, setOpenMenu] = useState(false);
