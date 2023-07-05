@@ -309,7 +309,9 @@ const Recommendation = () => {
                     height={192}
                     mb={"sm"}
                   />
-                  <Text>{convertCapitalToCamelCase(book.title)}</Text>
+                  <Text align={isMobile ? "center" : "left"}>
+                    {convertCapitalToCamelCase(book.title)}
+                  </Text>
                   {book.authors.length > 0 && (
                     <Text size="sm" align={isMobile ? "center" : "left"}>
                       {convertCapitalToCamelCase(formatNames(book.authors))}
