@@ -182,7 +182,7 @@ const HomePage = () => {
       {shouldRenderLatest && (
         <Container mx={0} px={isMobile ? 0 : "md"}>
           <Title pt="xs" size={isMobile ? "h3" : "h2"}>
-            Latest Recommendations
+            Recent Search Results
           </Title>
           <Text size={isMobile ? "sm" : "md"} pb="sm">
             {latestData?.userInput}
