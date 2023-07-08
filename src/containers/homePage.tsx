@@ -73,13 +73,15 @@ const HomePage = () => {
           icon={<IconSearch size={20} />}
           placeholder="Search Books"
         />
-        <Image
-          alt={"GoogleBooksAttribution"}
-          src={GoogleBooksAttribution}
-          width={49}
-          height={24}
-          pl={isMobile ? "sm" : "md"}
-        />
+        {!isMobile && (
+          <Image
+            alt={"GoogleBooksAttribution"}
+            src={GoogleBooksAttribution}
+            width={49}
+            height={24}
+            pl="md"
+          />
+        )}
       </Container>
       {isLoading && (
         <Container>
