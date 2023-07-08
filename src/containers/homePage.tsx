@@ -88,7 +88,9 @@ const HomePage = () => {
         height={192}
         mb={"sm"}
       />
-      <Text>{convertCapitalToCamelCase(book.title)}</Text>
+      <Text align={isMobile ? "center" : "left"}>
+        {convertCapitalToCamelCase(book.title)}
+      </Text>
       {book.authors.length > 0 && (
         <Text size="sm" align={isMobile ? "center" : "left"}>
           {convertCapitalToCamelCase(formatNames(book.authors))}
@@ -100,7 +102,7 @@ const HomePage = () => {
   return (
     <Container>
       <Container
-        py={isMobile ? "0" : "sm"}
+        py={isMobile ? "xs" : "sm"}
         px={isMobile ? "0" : "md"}
         style={{ display: "flex", alignItems: "center" }}
       >
@@ -179,10 +181,12 @@ const HomePage = () => {
       )}
       {shouldRenderLatest && (
         <Container mx={0} px={isMobile ? 0 : "md"}>
-          <Title pt="xs" size="h2">
+          <Title pt="xs" size={isMobile ? "h3" : "h2"}>
             Latest Recommendations
           </Title>
-          <Text pb="sm">{latestData?.userInput}</Text>
+          <Text size={isMobile ? "sm" : "md"} pb="sm">
+            {latestData?.userInput}
+          </Text>
         </Container>
       )}
       <Container
