@@ -68,7 +68,7 @@ const HomePage = () => {
             size={"sm"}
             iconWidth={40}
             icon={<IconSearch size={20} />}
-            placeholder="Search for recommendations..."
+            placeholder="Search books"
           />
         ) : (
           <Textarea
@@ -96,7 +96,7 @@ const HomePage = () => {
             icon={<IconSearch size={20} />}
             maxRows={3}
             autosize={true}
-            placeholder="Tell us about the book you are looking for. E.g. 'Books about the impact of artificial intelligence'."
+            placeholder="Search books"
           />
         )}
       </Container>
