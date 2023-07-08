@@ -78,7 +78,7 @@ const HomePage = () => {
           src={GoogleBooksAttribution}
           width={49}
           height={24}
-          pl="md"
+          pl={isMobile ? "sm" : "md"}
         />
       </Container>
       {isLoading && (
