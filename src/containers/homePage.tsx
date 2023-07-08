@@ -47,7 +47,7 @@ const HomePage = () => {
       <Container
         py={isMobile ? "0" : "sm"}
         px={isMobile ? "0" : "md"}
-        style={{ display: "flex" }}
+        style={{ display: "flex", alignItems: "center" }}
       >
         <TextInput
           style={{ flex: 1 }}
@@ -75,13 +75,10 @@ const HomePage = () => {
         />
         <Image
           alt={"GoogleBooksAttribution"}
-          style={{ alignSelf: "flex-end" }}
-          // radius={"sm"}
           src={GoogleBooksAttribution}
-          width={62}
-          height={30}
-          pl="lg"
-          // mb={"sm"}
+          width={49}
+          height={24}
+          pl="md"
         />
       </Container>
       {isLoading && (
