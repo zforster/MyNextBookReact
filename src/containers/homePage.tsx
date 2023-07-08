@@ -13,6 +13,7 @@ import { useState } from "react";
 import { getHotkeyHandler } from "@mantine/hooks";
 import ReactGA from "react-ga4";
 import { useMediaQuery } from "@mantine/hooks";
+import GoogleBooksAttribution from "../assets/poweredby.png";
 
 const HomePage = () => {
   const isMobile = useMediaQuery("(max-width: 70em)");
@@ -43,62 +44,45 @@ const HomePage = () => {
 
   return (
     <Container>
-      <Container py={isMobile ? "0" : "sm"} px={isMobile ? "0" : "md"}>
-        {isMobile ? (
-          <TextInput
-            error={isError && "Sorry, something went wrong"}
-            onKeyDown={getHotkeyHandler([
-              [
-                "Enter",
-                () => {
-                  ReactGA.event({
-                    category: "Book Recommendation",
-                    action: "Search",
-                    label: textValue,
-                  });
-                  !isLoading && getRecommendations(textValue);
-                },
-              ],
-            ])}
-            rightSection={
-              isLoading ? <Loader color="#71717a" size="xs" /> : null
-            }
-            value={textValue}
-            onChange={(e) => setTextValue(e.target.value)}
-            size={"sm"}
-            iconWidth={40}
-            icon={<IconSearch size={20} />}
-            placeholder="Search books"
-          />
-        ) : (
-          <Textarea
-            error={isError && "Sorry, something went wrong"}
-            onKeyDown={getHotkeyHandler([
-              [
-                "Enter",
-                () => {
-                  ReactGA.event({
-                    category: "Book Recommendation",
-                    action: "Search",
-                    label: textValue,
-                  });
-                  !isLoading && getRecommendations(textValue);
-                },
-              ],
-            ])}
-            rightSection={
-              isLoading ? <Loader color="#71717a" size="xs" /> : null
-            }
-            value={textValue}
-            onChange={(e) => setTextValue(e.target.value)}
-            size={"sm"}
-            iconWidth={40}
-            icon={<IconSearch size={20} />}
-            maxRows={3}
-            autosize={true}
-            placeholder="Search books"
-          />
-        )}
+      <Container
+        py={isMobile ? "0" : "sm"}
+        px={isMobile ? "0" : "md"}
+        style={{ display: "flex" }}
+      >
+        <TextInput
+          style={{ flex: 1 }}
+          error={isError && "Sorry, something went wrong"}
+          onKeyDown={getHotkeyHandler([
+            [
+              "Enter",
+              () => {
+                ReactGA.event({
+                  category: "Book Recommendation",
+                  action: "Search",
+                  label: textValue,
+                });
+                !isLoading && getRecommendations(textValue);
+              },
+            ],
+          ])}
+          rightSection={isLoading ? <Loader color="#71717a" size="xs" /> : null}
+          value={textValue}
+          onChange={(e) => setTextValue(e.target.value)}
+          size={"sm"}
+          iconWidth={40}
+          icon={<IconSearch size={20} />}
+          placeholder="Search Books"
+        />
+        <Image
+          alt={"GoogleBooksAttribution"}
+          style={{ alignSelf: "flex-end" }}
+          // radius={"sm"}
+          src={GoogleBooksAttribution}
+          width={62}
+          height={30}
+          pl="lg"
+          // mb={"sm"}
+        />
       </Container>
       {isLoading && (
         <Container>
