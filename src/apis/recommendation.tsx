@@ -29,6 +29,9 @@ export const recommendationAPI = createApi({
       query: (bookIdentifier) =>
         `summary/${bookIdentifier.recommendationId}/${bookIdentifier.index}`,
     }),
+    getLatest: build.query<RecommendationResponse, null>({
+      query: () => `latest`,
+    }),
     getReason: build.query<StringResponse, BookIdentifier>({
       query: (bookIdentifier) =>
         `reason/${bookIdentifier.recommendationId}/${bookIdentifier.index}`,
@@ -41,6 +44,7 @@ export const recommendationAPI = createApi({
 
 export const {
   useGetRecommendationsFromTextMutation,
+  useGetLatestQuery,
   useLazyGetSummaryQuery,
   useLazyGetReasonQuery,
   useLazyFetchRecommendationByIdQuery,
