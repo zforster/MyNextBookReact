@@ -18,6 +18,7 @@ import ReactGA from "react-ga4";
 import { useMediaQuery } from "@mantine/hooks";
 import GoogleBooksAttribution from "../assets/poweredby.png";
 import { Book } from "../datatypes/recommendation";
+import { DateTime } from "luxon";
 
 const HomePage = () => {
   const isMobile = useMediaQuery("(max-width: 70em)");
@@ -36,7 +37,15 @@ const HomePage = () => {
     }
   );
 
-  const shouldRenderLatest = !isLatestLoading && isUninitialized;
+  const getReadableDate = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return DateTime.fromISO(
+      new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString()
+    ).toRelative();
+  };
+
+  const shouldRenderLatest =
+    !isLatestLoading && isUninitialized && latestData !== undefined;
 
   const formatNames = (names: string[]) => {
     switch (names.length) {
@@ -182,9 +191,11 @@ const HomePage = () => {
       {shouldRenderLatest && (
         <Container mx={0} px={isMobile ? 0 : "md"}>
           <Title pt="xs" size={isMobile ? "h3" : "h2"}>
-            Recent Search Results
+            Latest Recommendations
           </Title>
           <Text size={isMobile ? "sm" : "md"} pb="sm">
+            {getReadableDate(latestData.timestamp)}
+            {" - "}
             {latestData?.userInput}
           </Text>
         </Container>
