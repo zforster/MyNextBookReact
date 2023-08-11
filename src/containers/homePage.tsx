@@ -16,7 +16,6 @@ import { useState } from "react";
 import { getHotkeyHandler } from "@mantine/hooks";
 import ReactGA from "react-ga4";
 import { useMediaQuery } from "@mantine/hooks";
-import GoogleBooksAttribution from "../assets/poweredby.png";
 import { Book } from "../datatypes/recommendation";
 import { DateTime } from "luxon";
 
@@ -139,15 +138,6 @@ const HomePage = () => {
           icon={<IconSearch size={20} />}
           placeholder="Search Books"
         />
-        {!isMobile && (
-          <Image
-            alt={"GoogleBooksAttribution"}
-            src={GoogleBooksAttribution}
-            width={49}
-            height={24}
-            pl="md"
-          />
-        )}
       </Container>
       {isLoading && (
         <Container>
